@@ -1,0 +1,11 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/admin", "destination": "/admin_dashboard_shorts.html" },
+    { "source": "/admin/shorts", "destination": "/admin_dashboard_shorts.html" },
+    { "source": "/editor", "destination": "/blog_editor_youtube_design.html" },
+    { "source": "/blog-editor", "destination": "/blog_editor_youtube_design.html" },
+    { "source": "/blogs", "destination": "/index.html" },
+    { "source": "/blogs/6a72f375c211742677db1b06", "destination": "/sololandscapes_live_implementation.html" }
+  ]
+}
