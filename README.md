@@ -15,6 +15,104 @@ A developer guide for implementing **9:16 YouTube Shorts / Field Reels** on `/bl
 
 ---
 
+## 🧠 Logic Flow & System Architecture
+
+### 1. Logic Flow: Shorts Row (Admin Creation &rarr; Database &rarr; `/blogs` Shelf &rarr; Visitor Interaction)
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Admin as Admin / Content Manager
+    participant CMS as Admin Dashboard (/admin)
+    participant DB as Backend Database (ShortVideo)
+    participant Web as /blogs Frontend (SSR / ISR)
+    actor Visitor as Public Visitor
+
+    Admin->>CMS: 1. Pastes YouTube Short URL (e.g. /shorts/JNE1T-Q1TBU)
+    CMS->>CMS: 2. Auto-extracts 11-char ID & generates 9:16 thumbnail preview
+    Admin->>CMS: 3. Enters Title, Location, Guide Name, & links optional Blog ID
+    Admin->>CMS: 4. Sets displayOrder & toggles isActive = true
+    CMS->>DB: 5. POST /api/shorts (Persists new ShortVideo record)
+    
+    Visitor->>Web: 6. Visits sololandscapes.co/blogs
+    Web->>DB: 7. Query: findMany({ where: { isActive: true }, orderBy: { displayOrder: 'asc' } })
+    DB-->>Web: 8. Returns array of active shorts
+    Web-->>Visitor: 9. Renders 9:16 horizontal shelf directly ABOVE Blogs Hero
+    
+    Visitor->>Web: 10. Taps any short card
+    Web->>Web: 11. Opens Lightbox modal (iframe loaded, top controls separate)
+    Visitor->>Web: 12. Swipes UP/DOWN on screen -> cycles next/prev video
+    Visitor->>Web: 13. Taps "Read Related Guide ->" CTA -> navigates to /blogs/[slug]
+```
+
+---
+
+### 2. Logic Flow: In-Article Media Inserter (Image vs. YouTube Video inside TipTap)
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Admin as Admin / Writer
+    participant TipTap as TipTap Editor (image.png)
+    participant S3 as Image Storage (CDN)
+    participant API as Backend Post API
+    actor Reader as Blog Reader (/blogs/[slug])
+
+    Admin->>TipTap: 1. Writes section: "What Solo Travel Actually Gives You..."
+    Admin->>TipTap: 2. Hits Enter for new line & clicks [+ Add ▾]
+
+    alt Option A: Admin chooses "🖼️ Image"
+        Admin->>TipTap: Selects image file or pastes image URL
+        TipTap->>S3: Uploads file to CDN
+        S3-->>TipTap: Returns image CDN URL
+        TipTap->>TipTap: Inserts standard Image node: <img src="..." class="rounded-2xl" />
+    else Option B: Admin chooses "🎬 YouTube Video"
+        Admin->>TipTap: Pastes YouTube video link (watch?v=... or shorts/...)
+        TipTap->>TipTap: Auto-validates link & extracts 11-char video ID
+        TipTap->>TipTap: Inserts YouTube node: <div class="aspect-video"><iframe ... /></div>
+    end
+
+    Admin->>API: 3. Clicks "Save Post" (Sends TipTap JSON/HTML)
+    API->>API: 4. Validates and saves article in database
+    
+    Reader->>Reader: 5. Reads article on /blogs/[slug]
+    Note over Reader: Image gallery or 16:9 YouTube video renders cleanly under heading
+```
+
+---
+
+### 3. Lightbox Touch Navigation State Machine
+
+```
+               ┌───────────────────────────────┐
+               │   Visitor Taps 9:16 Card      │
+               └──────────────┬────────────────┘
+                              │
+                              ▼
+               ┌───────────────────────────────┐
+               │    Open Modal Lightbox        │
+               │  - Mount YouTube Iframe       │
+               │  - External Controls in Bar   │
+               └──────────────┬────────────────┘
+                              │
+         ┌────────────────────┼────────────────────┐
+         │                    │                    │
+         ▼                    ▼                    ▼
+   [ Swipe UP ]         [ Swipe DOWN ]     [ Tap Close (✕) ]
+   Next video:          Prev video:        Unmount iframe,
+   index = index + 1    index = index - 1  restore scroll
+         │                    │
+         └───────────┬────────┘
+                     │
+                     ▼
+       ┌───────────────────────────────┐
+       │   Update Iframe src & Info    │
+       │   (Smooth animated transition)│
+       └───────────────────────────────┘
+```
+
+---
+
 ## Part 1: Row of Short Videos Above Hero on `/blogs`
 
 ### 1. Placement Architecture
