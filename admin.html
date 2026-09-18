@@ -1,0 +1,1366 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-100">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SoloLandscapes Admin — Field Shorts & Vlogs Manager</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts matching SoloLandscapes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0f9f8',
+              100: '#dcf0ee',
+              500: '#147474',
+              600: '#0a4a4a',
+              700: '#073636',
+              800: '#062929',
+              900: '#041f1f',
+            },
+            midnight: '#07262b',
+            accent: '#f43f5e',
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            poppins: ['"Poppins"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="h-full antialiased text-slate-800 flex flex-col bg-slate-100">
+
+  <!-- ================================================================= -->
+  <!-- TOP GLOBAL BAR: SWITCH BETWEEN ADMIN CMS & LIVE WEBSITE FRONTEND  -->
+  <!-- ================================================================= -->
+  <header class="bg-midnight text-white px-4 py-2.5 border-b border-teal-950/80 z-50 sticky top-0 shadow-md">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3 text-xs">
+      <div class="flex items-center gap-2.5">
+        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span class="font-bold text-white tracking-wide">SoloLandscapes Architecture:</span>
+        <span class="bg-black/50 text-emerald-300 font-mono px-2 py-0.5 rounded border border-white/10">
+          Admin Dashboard &larr;&rarr; /blogs Frontend
+        </span>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <span class="text-slate-400 hidden sm:inline">Active View:</span>
+        <div class="bg-black/40 p-0.5 rounded-lg inline-flex border border-white/10">
+          <button 
+            id="tab-admin-btn"
+            onclick="switchGlobalView('admin')"
+            class="px-3 py-1.5 rounded-md font-bold text-xs bg-brand-500 text-white shadow flex items-center gap-1.5 transition-all"
+          >
+            <i data-lucide="layout-dashboard" class="w-3.5 h-3.5"></i>
+            Admin Dashboard (CMS)
+          </button>
+          <button 
+            id="tab-frontend-btn"
+            onclick="switchGlobalView('frontend')"
+            class="px-3 py-1.5 rounded-md font-medium text-xs text-slate-300 hover:text-white flex items-center gap-1.5 transition-all"
+          >
+            <i data-lucide="globe" class="w-3.5 h-3.5"></i>
+            Live /blogs Page (Row Above Hero)
+          </button>
+          <a 
+            href="/blogs/6a72f375c211742677db1b06"
+            class="px-3 py-1.5 rounded-md font-medium text-xs text-slate-300 hover:text-white flex items-center gap-1.5 transition-all"
+          >
+            <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
+            Detail Page (16:9 Video)
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================================================================= -->
+  <!-- VIEW 1: ADMIN DASHBOARD VIEW                                      -->
+  <!-- ================================================================= -->
+  <div id="view-admin" class="flex-1 flex overflow-hidden">
+    
+    <!-- ADMIN SIDEBAR -->
+    <aside class="w-64 bg-slate-900 text-slate-300 flex-shrink-0 hidden md:flex flex-col border-r border-slate-800">
+      <!-- Logo -->
+      <div class="h-16 flex items-center gap-3 px-6 border-b border-slate-800 bg-slate-950">
+        <div class="w-8 h-8 rounded-lg bg-brand-500 text-white flex items-center justify-center font-black text-sm">
+          SL
+        </div>
+        <div>
+          <div class="font-bold text-white text-sm leading-none font-poppins">SoloLandscapes</div>
+          <div class="text-[10px] text-teal-400 font-medium mt-0.5">CMS &amp; Operations</div>
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <nav class="flex-1 px-3 py-4 space-y-1 text-xs font-medium overflow-y-auto">
+        <div class="text-[10px] uppercase font-bold text-slate-400 px-3 pt-2 pb-1 tracking-wider">Overview</div>
+        <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-400 hover:bg-slate-800/80 hover:text-white transition-colors">
+          <i data-lucide="bar-chart-2" class="w-4 h-4"></i>
+          <span>Analytics &amp; Bookings</span>
+        </a>
+
+        <div class="text-[10px] uppercase font-bold text-slate-400 px-3 pt-4 pb-1 tracking-wider">Content &amp; Media</div>
+        
+        <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-400 hover:bg-slate-800/80 hover:text-white transition-colors">
+          <i data-lucide="book-open" class="w-4 h-4"></i>
+          <span>Blog Articles</span>
+        </a>
+
+        <!-- ACTIVE ITEM: SHORTS & VLOGS -->
+        <a href="#" class="flex items-center justify-between px-3 py-2 rounded-lg bg-brand-600 text-white font-semibold shadow-sm">
+          <div class="flex items-center gap-3">
+            <i data-lucide="play-square" class="w-4 h-4 text-emerald-300"></i>
+            <span>Field Shorts &amp; Reels</span>
+          </div>
+          <span class="bg-brand-800 text-emerald-300 text-[10px] px-1.5 py-0.5 rounded font-bold" id="badge-count">6 Live</span>
+        </a>
+
+        <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-400 hover:bg-slate-800/80 hover:text-white transition-colors">
+          <i data-lucide="map-pin" class="w-4 h-4"></i>
+          <span>Destinations &amp; Tours</span>
+        </a>
+
+        <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-400 hover:bg-slate-800/80 hover:text-white transition-colors">
+          <i data-lucide="users" class="w-4 h-4"></i>
+          <span>Guides &amp; Team</span>
+        </a>
+
+        <div class="text-[10px] uppercase font-bold text-slate-400 px-3 pt-4 pb-1 tracking-wider">Configuration</div>
+        <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-400 hover:bg-slate-800/80 hover:text-white transition-colors">
+          <i data-lucide="settings" class="w-4 h-4"></i>
+          <span>Website Settings</span>
+        </a>
+      </nav>
+
+      <!-- User footer -->
+      <div class="p-3 border-t border-slate-800 bg-slate-950 flex items-center gap-3">
+        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&q=80" alt="Admin" class="w-8 h-8 rounded-full object-cover">
+        <div class="flex-1 min-w-0">
+          <p class="text-xs font-semibold text-white truncate">Admin Operations</p>
+          <p class="text-[10px] text-slate-400 truncate">content@sololandscapes.co</p>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ADMIN CONTENT MAIN -->
+    <main class="flex-1 flex flex-col overflow-y-auto bg-slate-50">
+      
+      <!-- Top Subheader -->
+      <div class="bg-white border-b border-slate-200 px-6 py-4 flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2 text-xs text-slate-500 mb-1">
+            <span>Content</span>
+            <span>/</span>
+            <span>Vlogs</span>
+            <span>/</span>
+            <span class="text-brand-600 font-semibold">Row of Short Videos (/blogs Shelf)</span>
+          </div>
+          <h1 class="text-2xl font-bold text-slate-900 font-poppins flex items-center gap-2.5">
+            Field Shorts &amp; Reels Manager
+            <span class="text-xs font-semibold bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full border border-emerald-200">
+              Active on /blogs Header
+            </span>
+          </h1>
+          <p class="text-xs text-slate-500 mt-0.5">
+            Controls the 9:16 vertical short videos displayed directly above the blogs hero section on sololandscapes.co/blogs.
+          </p>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <button 
+            onclick="switchGlobalView('frontend')" 
+            class="px-3 py-2 text-xs font-semibold text-slate-700 bg-white border border-slate-300 hover:bg-slate-50 rounded-lg shadow-sm flex items-center gap-1.5 transition-all"
+          >
+            <i data-lucide="external-link" class="w-3.5 h-3.5 text-slate-500"></i>
+            Preview Live /blogs Row
+          </button>
+          
+          <button 
+            onclick="openAddModal()" 
+            class="px-4 py-2 text-xs font-bold text-white bg-brand-600 hover:bg-brand-700 rounded-lg shadow-sm flex items-center gap-2 transition-all"
+          >
+            <i data-lucide="plus" class="w-4 h-4"></i>
+            Add Short Video
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Metrics Cards -->
+      <div class="px-6 pt-6">
+        <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
+          
+          <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
+            <div>
+              <p class="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Live in Top Row</p>
+              <h3 class="text-2xl font-black text-slate-900 mt-1" id="metric-active">5 Videos</h3>
+              <p class="text-[11px] text-emerald-600 font-medium mt-0.5 flex items-center gap-1">
+                <i data-lucide="check" class="w-3 h-3"></i> Displaying on /blogs
+              </p>
+            </div>
+            <div class="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
+              <i data-lucide="play-circle" class="w-5 h-5"></i>
+            </div>
+          </div>
+
+          <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
+            <div>
+              <p class="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Drafts / Hidden</p>
+              <h3 class="text-2xl font-black text-slate-900 mt-1" id="metric-drafts">1 Video</h3>
+              <p class="text-[11px] text-slate-500 font-medium mt-0.5">Ready to publish</p>
+            </div>
+            <div class="w-10 h-10 rounded-lg bg-slate-100 text-slate-600 flex items-center justify-center">
+              <i data-lucide="clock" class="w-5 h-5"></i>
+            </div>
+          </div>
+
+          <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
+            <div>
+              <p class="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Row Video Views</p>
+              <h3 class="text-2xl font-black text-slate-900 mt-1">14,820</h3>
+              <p class="text-[11px] text-emerald-600 font-medium mt-0.5 flex items-center gap-0.5">
+                <i data-lucide="trending-up" class="w-3 h-3"></i> +32% this month
+              </p>
+            </div>
+            <div class="w-10 h-10 rounded-lg bg-teal-50 text-teal-600 flex items-center justify-center">
+              <i data-lucide="eye" class="w-5 h-5"></i>
+            </div>
+          </div>
+
+          <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between">
+            <div>
+              <p class="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Blog Click-Through</p>
+              <h3 class="text-2xl font-black text-slate-900 mt-1">1,940</h3>
+              <p class="text-[11px] text-brand-600 font-medium mt-0.5">Converted to article reads</p>
+            </div>
+            <div class="w-10 h-10 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center">
+              <i data-lucide="compass" class="w-5 h-5"></i>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Video Shelf Configuration & Ordering Table -->
+      <div class="p-6">
+        <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+          
+          <!-- Table Toolbar -->
+          <div class="p-4 border-b border-slate-200 flex flex-wrap items-center justify-between gap-3 bg-slate-50/70">
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-bold text-slate-700">Display Settings:</span>
+              <span class="text-xs bg-slate-200/80 text-slate-700 px-2 py-0.5 rounded font-mono">
+                Position: Directly above &lt;BlogsHero /&gt;
+              </span>
+            </div>
+            
+            <div class="flex items-center gap-2">
+              <span class="text-xs text-slate-400">Drag items or use &uarr;&darr; buttons to reorder shelf sequence:</span>
+              <button onclick="saveReorderNotice()" class="px-2.5 py-1 text-xs font-semibold bg-white border border-slate-300 rounded shadow-xs hover:bg-slate-50 text-slate-700 flex items-center gap-1">
+                <i data-lucide="check" class="w-3 h-3 text-emerald-600"></i> Save Order
+              </button>
+            </div>
+          </div>
+
+          <!-- Video Items List Table -->
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-100/80 text-slate-500 uppercase tracking-wider text-[10px] font-bold border-b border-slate-200">
+                <tr>
+                  <th class="py-3 px-3 w-12 text-center">Order</th>
+                  <th class="py-3 px-4 w-28">Short Video</th>
+                  <th class="py-3 px-4">Title &amp; Location</th>
+                  <th class="py-3 px-4">Guide / Presenter</th>
+                  <th class="py-3 px-4">YouTube Source</th>
+                  <th class="py-3 px-4">Linked Article / Tour</th>
+                  <th class="py-3 px-4 text-center">Status</th>
+                  <th class="py-3 px-4 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="video-table-body" class="divide-y divide-slate-200">
+                <!-- Injected via JavaScript -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Table Footer -->
+          <div class="p-4 border-t border-slate-200 bg-slate-50 flex items-center justify-between text-xs text-slate-500">
+            <div>
+              Showing <strong class="text-slate-800" id="total-count-label">6</strong> short videos in row
+            </div>
+            <div class="flex items-center gap-1.5 text-xs text-slate-500">
+              <i data-lucide="info" class="w-3.5 h-3.5 text-brand-600"></i>
+              <span>Tip: YouTube Shorts automatically crop into vertical 9:16 cards with no black bars.</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ================================================================= -->
+  <!-- VIEW 2: LIVE /blogs FRONTEND PREVIEW (Row Above Hero Section)     -->
+  <!-- ================================================================= -->
+  <div id="view-frontend" class="hidden flex-1 flex flex-col overflow-y-auto bg-slate-50">
+    
+    <!-- Notice Bar -->
+    <div class="bg-brand-900 text-white px-4 py-2 text-xs flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+        <span class="font-medium">Frontend Preview of <strong>sololandscapes.co/blogs</strong></span>
+        <span class="text-teal-300 font-mono bg-black/40 px-2 py-0.5 rounded text-[11px]">
+          Shorts Row Position: ABOVE Hero Section
+        </span>
+      </div>
+      <button onclick="switchGlobalView('admin')" class="bg-white/10 hover:bg-white/20 text-white text-[11px] font-semibold px-2.5 py-1 rounded transition-colors flex items-center gap-1">
+        <i data-lucide="settings" class="w-3 h-3"></i> Back to Admin Dashboard
+      </button>
+    </div>
+
+    <!-- Live SoloLandscapes Header -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-xs">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+        
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-xl bg-brand-600 text-white flex items-center justify-center font-bold text-xs">
+            SL
+          </div>
+          <span class="text-lg font-bold tracking-tight text-midnight font-poppins">
+            SOLO<span class="text-brand-500">LANDSCAPES</span>
+          </span>
+        </div>
+
+        <nav class="hidden md:flex items-center gap-7 text-xs font-semibold text-slate-600">
+          <a href="#" class="hover:text-brand-600">Home</a>
+          <a href="#" class="hover:text-brand-600">Experiences</a>
+          <a href="#" class="hover:text-brand-600">Destinations</a>
+          <a href="#" class="text-brand-600 border-b-2 border-brand-600 pb-1 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
+            Vlogs
+          </a>
+          <a href="#" class="hover:text-brand-600">Moments</a>
+        </nav>
+
+        <div class="flex items-center gap-2.5">
+          <button class="bg-brand-600 text-white text-xs font-semibold px-3.5 py-1.5 rounded-full shadow-xs">
+            Plan a Trip
+          </button>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- ************************************************************* -->
+    <!-- [REQUESTED PLACEMENT]: ROW OF SHORT VIDEOS ABOVE THE BLOGS HERO -->
+    <!-- ************************************************************* -->
+    <section class="bg-white border-b border-slate-200 py-4 sm:py-6 shadow-xs relative">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Row Header -->
+        <div class="flex items-center justify-between mb-3.5">
+          <div class="flex items-center gap-2">
+            <div class="w-6 h-6 rounded-md bg-rose-600 text-white flex items-center justify-center">
+              <i data-lucide="zap" class="w-3.5 h-3.5 fill-white"></i>
+            </div>
+            <div>
+              <h2 class="text-sm sm:text-base font-extrabold text-slate-900 leading-tight">
+                Field Shorts &amp; Reels
+              </h2>
+              <p class="text-[11px] text-slate-500">Real 30-sec vertical dispatches from our guides on location</p>
+            </div>
+          </div>
+
+          <!-- Controls -->
+          <div class="flex items-center gap-2">
+            <span class="text-[10px] font-bold text-rose-600 bg-rose-50 border border-rose-200 px-2 py-0.5 rounded-full hidden sm:inline">
+              Swipe or Tap to Watch &rarr;
+            </span>
+            <div class="hidden sm:flex items-center gap-1">
+              <button onclick="scrollFrontendRow('left')" class="w-7 h-7 rounded-full border border-slate-200 bg-white hover:bg-slate-50 flex items-center justify-center text-slate-600">
+                <i data-lucide="chevron-left" class="w-3.5 h-3.5"></i>
+              </button>
+              <button onclick="scrollFrontendRow('right')" class="w-7 h-7 rounded-full border border-slate-200 bg-white hover:bg-slate-50 flex items-center justify-center text-slate-600">
+                <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 9:16 Shorts Row Container (Managed directly from Admin Dashboard) -->
+        <div id="frontend-shorts-row" class="flex gap-3 overflow-x-auto pb-2 no-scrollbar scroll-smooth">
+          <!-- Injected dynamically from admin video state -->
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ************************************************************* -->
+    <!-- BLOGS HERO SECTION (Directly Below the Short Video Row)        -->
+    <!-- ************************************************************* -->
+    <div class="relative overflow-hidden bg-slate-900 text-white py-12 md:py-16 border-b border-slate-800">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="max-w-3xl">
+          <span class="text-[11px] font-bold uppercase tracking-wider text-teal-300 flex items-center gap-1.5 mb-2">
+            <span>📚</span> SoloLandscapes Journal
+          </span>
+          <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight font-poppins text-white">
+            Explore Our Travel Stories &amp; Insights
+          </h1>
+          <p class="mt-3 text-sm md:text-base text-slate-300 leading-relaxed">
+            Discover inspiring journeys, insider tips, and unforgettable experiences curated by our expert guides.
+          </p>
+          
+          <!-- Category pills -->
+          <div class="mt-6 flex flex-wrap items-center gap-2">
+            <span class="bg-brand-500 text-white px-3 py-1 rounded-full text-xs font-semibold">All Stories</span>
+            <span class="bg-white/10 hover:bg-white/20 text-slate-200 px-3 py-1 rounded-full text-xs font-medium cursor-pointer transition-colors">Hiking</span>
+            <span class="bg-white/10 hover:bg-white/20 text-slate-200 px-3 py-1 rounded-full text-xs font-medium cursor-pointer transition-colors">Destinations</span>
+            <span class="bg-white/10 hover:bg-white/20 text-slate-200 px-3 py-1 rounded-full text-xs font-medium cursor-pointer transition-colors">Guide Diaries</span>
+            <span class="bg-white/10 hover:bg-white/20 text-slate-200 px-3 py-1 rounded-full text-xs font-medium cursor-pointer transition-colors">Solo Tips</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Background subtle glow -->
+      <div class="absolute -right-20 -bottom-20 w-96 h-96 bg-brand-600/30 rounded-full blur-3xl pointer-events-none"></div>
+    </div>
+
+    <!-- Existing Blog Articles 4-Column Grid -->
+    <section class="py-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between mb-6">
+        <h3 class="text-lg font-bold text-slate-900">Latest Articles</h3>
+        <span class="text-xs text-slate-500">12 articles published</span>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        
+        <!-- Live Article from sololandscapes.co/blogs/6a72f375c211742677db1b06 -->
+        <article class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+          <div class="aspect-16/10 relative overflow-hidden bg-slate-100">
+            <img 
+              src="https://backend.sololandscapes.co/public/uploads/images/thumbnail-4993ad6b-8739-4fc3-a15d-85fa7883907a.webp" 
+              alt="Hiker" 
+              class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+            />
+            <span class="absolute top-3 left-3 bg-brand-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+              Hiking
+            </span>
+          </div>
+          <div class="p-5">
+            <div class="text-[11px] text-slate-400 mb-1.5 flex items-center gap-1.5">
+              <span>Nov 15, 2025</span> &bull; <span>5 min read</span>
+            </div>
+            <h4 class="font-bold text-slate-900 text-base leading-snug line-clamp-2 hover:text-brand-600 cursor-pointer">
+              The Solo Traveler's Dilemma: Should You Trek Alone or Join a Group?
+            </h4>
+            <p class="text-xs text-slate-500 mt-2 line-clamp-2">
+              The debate usually gets framed the wrong way. People treat solo travel and group travel like two opposing camps...
+            </p>
+          </div>
+        </article>
+
+        <!-- Article 2 -->
+        <article class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+          <div class="aspect-16/10 relative overflow-hidden bg-slate-100">
+            <img 
+              src="https://backend.sololandscapes.co/public/uploads/images/thumbnail-4baad7cc-d30e-4023-ba5d-5d5b2b0f16e1.webp" 
+              alt="Kampot" 
+              class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+            />
+            <span class="absolute top-3 left-3 bg-brand-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+              Destinations
+            </span>
+          </div>
+          <div class="p-5">
+            <div class="text-[11px] text-slate-400 mb-1.5 flex items-center gap-1.5">
+              <span>Nov 08, 2025</span> &bull; <span>4 min read</span>
+            </div>
+            <h4 class="font-bold text-slate-900 text-base leading-snug line-clamp-2 hover:text-brand-600 cursor-pointer">
+              Kampot Beyond the Pepper: Secret River Loops &amp; Mangrove Trails
+            </h4>
+            <p class="text-xs text-slate-500 mt-2 line-clamp-2">
+              Why peaceful morning paddling along the Green Cathedral is Cambodia's premier relaxation retreat.
+            </p>
+          </div>
+        </article>
+
+        <!-- Article 3 -->
+        <article class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+          <div class="aspect-16/10 relative overflow-hidden bg-slate-100">
+            <img 
+              src="https://backend.sololandscapes.co/public/uploads/images/thumbnail-ca328d2b-af8b-450b-94d7-c778373b931c.webp" 
+              alt="Cardamom" 
+              class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+            />
+            <span class="absolute top-3 left-3 bg-brand-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+              Ecotourism
+            </span>
+          </div>
+          <div class="p-5">
+            <div class="text-[11px] text-slate-400 mb-1.5 flex items-center gap-1.5">
+              <span>Oct 29, 2025</span> &bull; <span>6 min read</span>
+            </div>
+            <h4 class="font-bold text-slate-900 text-base leading-snug line-clamp-2 hover:text-brand-600 cursor-pointer">
+              Into the Deep Canopy: Cardamom Mountains Rainforest Trekking
+            </h4>
+            <p class="text-xs text-slate-500 mt-2 line-clamp-2">
+              Patrolling with wildlife rangers and camping under the thick jungle canopy of Southeast Asia's wildest frontier.
+            </p>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ================================================================= -->
+  <!-- MODAL 1: ADD / EDIT SHORT VIDEO DRAWER (THE ADMIN FORM)           -->
+  <!-- ================================================================= -->
+  <div id="admin-modal" class="fixed inset-0 z-[100] hidden">
+    <!-- Backdrop -->
+    <div class="fixed inset-0 bg-black/60 backdrop-blur-xs transition-opacity" onclick="closeAdminModal()"></div>
+
+    <!-- Modal Dialog / Drawer -->
+    <div class="fixed inset-y-0 right-0 max-w-2xl w-full bg-white shadow-2xl z-10 flex flex-col overflow-hidden">
+      
+      <!-- Modal Header -->
+      <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+        <div>
+          <h2 class="text-lg font-bold text-slate-900 font-poppins flex items-center gap-2" id="modal-title-heading">
+            <i data-lucide="video" class="w-5 h-5 text-brand-600"></i>
+            Add Short Video to /blogs Row
+          </h2>
+          <p class="text-xs text-slate-500 mt-0.5">
+            Paste a YouTube Shorts URL. Thumbnail and duration are parsed automatically.
+          </p>
+        </div>
+        <button onclick="closeAdminModal()" class="w-8 h-8 rounded-full hover:bg-slate-200 flex items-center justify-center text-slate-500">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Modal Body Form -->
+      <form id="short-video-form" onsubmit="handleFormSubmit(event)" class="flex-1 overflow-y-auto p-6 space-y-5">
+        
+        <input type="hidden" id="form-edit-id" value="">
+
+        <!-- 1. YOUTUBE URL INPUT -->
+        <div>
+          <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+            YouTube Shorts URL or Video ID <span class="text-rose-500">*</span>
+          </label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+              <i data-lucide="youtube" class="w-4 h-4 text-rose-600"></i>
+            </div>
+            <input 
+              type="text" 
+              id="form-youtube-url" 
+              required
+              placeholder="e.g. https://www.youtube.com/shorts/JNE1T-Q1TBU or JNE1T-Q1TBU"
+              oninput="previewYouTubeInput(this.value)"
+              class="w-full pl-9 pr-24 py-2.5 bg-white border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none"
+            />
+            <button 
+              type="button" 
+              onclick="testAutoFetch()"
+              class="absolute inset-y-1.5 right-1.5 px-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded text-[11px] font-semibold border border-slate-300 flex items-center gap-1"
+            >
+              <i data-lucide="sparkles" class="w-3 h-3 text-amber-500"></i> Auto-Fill
+            </button>
+          </div>
+          <p class="text-[11px] text-slate-400 mt-1">
+            Accepts formats: <code class="bg-slate-100 px-1 py-0.5 rounded text-slate-600">youtube.com/shorts/ID</code>, <code class="bg-slate-100 px-1 py-0.5 rounded text-slate-600">youtu.be/ID</code>, or raw 11-char ID.
+          </p>
+        </div>
+
+        <!-- 2. AUTO-FETCH PREVIEW CARD -->
+        <div id="url-preview-box" class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-center gap-4">
+          <div class="w-16 aspect-[9/16] rounded-lg overflow-hidden bg-black flex-shrink-0 relative shadow">
+            <img id="form-preview-thumb" src="https://img.youtube.com/vi/JNE1T-Q1TBU/hqdefault.jpg" alt="Preview" class="w-full h-full object-cover">
+            <div class="absolute inset-0 flex items-center justify-center">
+              <i data-lucide="play" class="w-4 h-4 text-white drop-shadow"></i>
+            </div>
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-1.5">
+              <span class="text-[10px] font-bold uppercase bg-rose-100 text-rose-700 px-1.5 py-0.2 rounded">Detected Short</span>
+              <span id="form-detected-id" class="text-xs font-mono font-bold text-slate-700">ID: JNE1T-Q1TBU</span>
+            </div>
+            <p class="text-xs text-slate-500 mt-1">
+              Thumbnail resolution: <strong>High (HQ / MaxRes)</strong>. Aspect ratio automatically formatted to vertical 9:16.
+            </p>
+          </div>
+        </div>
+
+        <!-- 3. TITLE / CAPTION -->
+        <div>
+          <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+            Card Title / Caption <span class="text-rose-500">*</span>
+          </label>
+          <input 
+            type="text" 
+            id="form-title" 
+            required
+            placeholder="e.g. Sunrise mangrove kayak loop in Kampot"
+            class="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none"
+          />
+          <p class="text-[11px] text-slate-400 mt-1">Short, catchy description displayed at the bottom of the 9:16 card (under 60 chars).</p>
+        </div>
+
+        <!-- 4. LOCATION & BADGE -->
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+              Destination / Location Tag <span class="text-rose-500">*</span>
+            </label>
+            <input 
+              type="text" 
+              id="form-location" 
+              required
+              placeholder="e.g. Kampot River Trail"
+              class="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none"
+            />
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+              Card Badge
+            </label>
+            <select 
+              id="form-badge"
+              class="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-brand-500 outline-none"
+            >
+              <option value="Short">⚡ Short</option>
+              <option value="Reel">🎬 Reel</option>
+              <option value="Field Dispatch">🌿 Field Dispatch</option>
+              <option value="Guide Tip">💡 Guide Tip</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- 5. GUIDE / PRESENTER -->
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+              Guide / Presenter Name <span class="text-rose-500">*</span>
+            </label>
+            <input 
+              type="text" 
+              id="form-guide-name" 
+              required
+              placeholder="e.g. Lisa or Dara"
+              class="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-brand-500 outline-none"
+            />
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+              Guide Avatar URL
+            </label>
+            <input 
+              type="text" 
+              id="form-guide-avatar" 
+              placeholder="https://images.unsplash.com/..."
+              value="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80"
+              class="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg text-xs focus:ring-2 focus:ring-brand-500 outline-none"
+            />
+          </div>
+        </div>
+
+        <!-- 6. LINKED BLOG / TOUR (OPTIONAL CTA) -->
+        <div class="p-4 bg-teal-50/60 border border-teal-200 rounded-xl space-y-2">
+          <label class="block text-xs font-bold text-teal-900 uppercase tracking-wider">
+            Link to Related Blog Post or Tour (Optional CTA)
+          </label>
+          <select 
+            id="form-linked-article"
+            class="w-full px-3 py-2 bg-white border border-teal-300 rounded-lg text-xs focus:ring-2 focus:ring-brand-500 outline-none text-slate-800"
+          >
+            <option value="">-- None (Pure Video Dispatch) --</option>
+            <option value="/blogs/6a72f375c211742677db1b06">Blog: The Solo Traveler's Dilemma: Solo vs Group</option>
+            <option value="/blogs/kampot-mangroves">Blog: Kampot Beyond Pepper: Secret River Loops</option>
+            <option value="/blogs/cardamom-jungle">Blog: Into the Deep Canopy: Cardamom Rainforest</option>
+            <option value="/experiences/kampot-kayak-tour">Tour: Kampot Sunset Mangrove Kayak (3-Day)</option>
+          </select>
+          <p class="text-[11px] text-teal-700">
+            When visitors watch this Short, a clean "Read Related Guide &rarr;" button appears so viewers can dive directly into the article.
+          </p>
+        </div>
+
+        <!-- 7. PUBLISHING STATUS -->
+        <div class="flex items-center justify-between p-4 bg-slate-50 border border-slate-200 rounded-xl">
+          <div>
+            <div class="text-xs font-bold text-slate-800">Publish in /blogs Shelf</div>
+            <p class="text-[11px] text-slate-500">Enable to make this short video visible immediately to visitors.</p>
+          </div>
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" id="form-status-toggle" checked class="sr-only peer">
+            <div class="w-11 h-6 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-600"></div>
+          </label>
+        </div>
+
+      </form>
+
+      <!-- Modal Footer -->
+      <div class="px-6 py-3.5 border-t border-slate-200 bg-slate-50 flex items-center justify-between">
+        <button 
+          type="button" 
+          onclick="closeAdminModal()"
+          class="px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-200 rounded-lg transition-colors"
+        >
+          Cancel
+        </button>
+        <button 
+          type="button" 
+          onclick="document.getElementById('short-video-form').requestSubmit()"
+          class="px-5 py-2 text-xs font-bold text-white bg-brand-600 hover:bg-brand-700 rounded-lg shadow transition-all flex items-center gap-1.5"
+        >
+          <i data-lucide="check" class="w-4 h-4"></i>
+          Save &amp; Update /blogs Row
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ================================================================= -->
+  <!-- MODAL 2: CLEAN VIDEO VIEWER LIGHTBOX (Touch Swipe Up/Down Ready) -->
+  <!-- ================================================================= -->
+  <div id="video-lightbox" class="fixed inset-0 z-[200] hidden flex flex-col items-center justify-center bg-black/90 backdrop-blur-md">
+    
+    <!-- Top Header Bar (Website controls placed cleanly outside video) -->
+    <div class="w-full max-w-sm px-3 py-2 flex items-center justify-between text-white border-b border-white/10 z-30">
+      <div class="flex items-center gap-2">
+        <div class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></div>
+        <span class="text-xs font-bold tracking-tight font-poppins">SoloLandscapes Short</span>
+        <span id="lightbox-index-badge" class="text-[10px] text-slate-400 bg-white/10 px-1.5 py-0.5 rounded">1 / 5</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <a id="lightbox-external-btn" href="#" target="_blank" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white" title="Open in YouTube">
+          <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+        </a>
+        <button onclick="closeVideoLightbox()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white" title="Close">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Video Container (9:16 vertical ratio) with Touch Swipe Listener -->
+    <div 
+      id="lightbox-touch-area" 
+      class="relative w-full max-w-sm aspect-[9/16] max-h-[78vh] bg-black rounded-2xl overflow-hidden shadow-2xl my-2 border border-white/10 flex items-center justify-center select-none"
+    >
+      <iframe 
+        id="lightbox-iframe" 
+        src="" 
+        class="w-full h-full border-0"
+        allow="autoplay; encrypted-media; picture-in-picture"
+        allowfullscreen
+      ></iframe>
+
+      <!-- Up/Down Swipe Indicators -->
+      <div class="absolute right-2 top-1/2 -translate-y-1/2 flex flex-col gap-2 z-20 pointer-events-auto">
+        <button onclick="navigateVideo(-1)" class="w-8 h-8 rounded-full bg-black/60 hover:bg-black/80 text-white flex items-center justify-center backdrop-blur-md border border-white/20 shadow">
+          <i data-lucide="chevron-up" class="w-4 h-4"></i>
+        </button>
+        <button onclick="navigateVideo(1)" class="w-8 h-8 rounded-full bg-black/60 hover:bg-black/80 text-white flex items-center justify-center backdrop-blur-md border border-white/20 shadow">
+          <i data-lucide="chevron-down" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Bottom Overlay: Title & Guide -->
+      <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/90 via-black/40 to-transparent pointer-events-none text-white z-10">
+        <div class="flex items-center gap-2 mb-1">
+          <span id="lightbox-guide-badge" class="text-[10px] font-bold uppercase bg-brand-500 text-white px-2 py-0.5 rounded">Guide Lisa</span>
+          <span id="lightbox-location-badge" class="text-[10px] text-slate-300 flex items-center gap-1">
+            <i data-lucide="map-pin" class="w-2.5 h-2.5"></i> Kampot
+          </span>
+        </div>
+        <h3 id="lightbox-title" class="text-xs font-bold leading-snug">Sunrise mangrove kayak loop</h3>
+        
+        <!-- Optional linked blog button -->
+        <div id="lightbox-cta-container" class="mt-2.5 pointer-events-auto">
+          <a id="lightbox-cta-btn" href="#" class="inline-flex items-center gap-1.5 text-[11px] font-bold bg-white text-brand-900 px-3 py-1 rounded-full hover:bg-brand-50 shadow transition-all">
+            <i data-lucide="book-open" class="w-3 h-3 text-brand-600"></i> Read Related Guide &rarr;
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Touch Swipe Hint -->
+    <p class="text-[11px] text-slate-400 mt-1 flex items-center gap-1">
+      <i data-lucide="arrow-up-down" class="w-3 h-3"></i> Swipe up / down on phone, or use &uarr;&darr; buttons to switch videos
+    </p>
+
+  </div>
+
+  <!-- ================================================================= -->
+  <!-- JAVASCRIPT STATE & OPERATIONS                                     -->
+  <!-- ================================================================= -->
+  <script>
+    // Initial Dataset of short videos for the row
+    let shortsData = [
+      {
+        id: "short-1",
+        youtubeId: "JNE1T-Q1TBU",
+        title: "Sunrise mangrove kayak loop in Kampot",
+        location: "Kampot River Trail",
+        guideName: "Lisa",
+        guideAvatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80",
+        badge: "Short",
+        active: true,
+        linkedArticle: "/blogs/6a72f375c211742677db1b06",
+        linkedTitle: "Solo vs Group Hiking Dilemma",
+        views: "4,920"
+      },
+      {
+        id: "short-2",
+        youtubeId: "dQw4w9WgXcQ",
+        title: "Cardamom rainforest canopy springs walk",
+        location: "Cardamom Mountains",
+        guideName: "Dara",
+        guideAvatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80",
+        badge: "Reel",
+        active: true,
+        linkedArticle: "/blogs/cardamom-jungle",
+        linkedTitle: "Into the Deep Canopy Trek",
+        views: "3,810"
+      },
+      {
+        id: "short-3",
+        youtubeId: "kJQP7kiw5Fk",
+        title: "Sunset over Angkor Wat hidden moats",
+        location: "Siem Reap",
+        guideName: "Chantrea",
+        guideAvatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&q=80",
+        badge: "Field Dispatch",
+        active: true,
+        linkedArticle: "",
+        linkedTitle: "",
+        views: "2,640"
+      },
+      {
+        id: "short-4",
+        youtubeId: "9bZkp7q19f0",
+        title: "Wild elephant corridor river crossing",
+        location: "Mondulkiri Sanctuary",
+        guideName: "Sopheap",
+        guideAvatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&q=80",
+        badge: "Short",
+        active: true,
+        linkedArticle: "",
+        linkedTitle: "",
+        views: "2,150"
+      },
+      {
+        id: "short-5",
+        youtubeId: "fJ9rUzIMcZQ",
+        title: "Floating village morning market espresso",
+        location: "Tonle Sap Lake",
+        guideName: "Kosal",
+        guideAvatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&q=80",
+        badge: "Guide Tip",
+        active: true,
+        linkedArticle: "",
+        linkedTitle: "",
+        views: "1,300"
+      },
+      {
+        id: "short-6",
+        youtubeId: "RgKAFK5djSk",
+        title: "Bokor Mountain mist road cycling (Draft)",
+        location: "Bokor National Park",
+        guideName: "Lisa",
+        guideAvatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80",
+        badge: "Reel",
+        active: false,
+        linkedArticle: "",
+        linkedTitle: "",
+        views: "0"
+      }
+    ];
+
+    let currentPlayingIndex = 0;
+
+    // Initialize View
+    function init() {
+      renderAdminTable();
+      renderFrontendRow();
+      lucide.createIcons();
+      setupSwipeHandlers();
+    }
+
+    // Switch between Admin CMS and Live Frontend Preview
+    function switchGlobalView(view) {
+      const adminView = document.getElementById('view-admin');
+      const frontendView = document.getElementById('view-frontend');
+      const tabAdminBtn = document.getElementById('tab-admin-btn');
+      const tabFrontendBtn = document.getElementById('tab-frontend-btn');
+
+      if (view === 'admin') {
+        adminView.classList.remove('hidden');
+        frontendView.classList.add('hidden');
+        tabAdminBtn.className = 'px-3 py-1.5 rounded-md font-bold text-xs bg-brand-500 text-white shadow flex items-center gap-1.5 transition-all';
+        tabFrontendBtn.className = 'px-3 py-1.5 rounded-md font-medium text-xs text-slate-300 hover:text-white flex items-center gap-1.5 transition-all';
+      } else {
+        adminView.classList.add('hidden');
+        frontendView.classList.remove('hidden');
+        tabFrontendBtn.className = 'px-3 py-1.5 rounded-md font-bold text-xs bg-brand-500 text-white shadow flex items-center gap-1.5 transition-all';
+        tabAdminBtn.className = 'px-3 py-1.5 rounded-md font-medium text-xs text-slate-300 hover:text-white flex items-center gap-1.5 transition-all';
+        renderFrontendRow();
+      }
+      lucide.createIcons();
+    }
+
+    // Render Admin Table
+    function renderAdminTable() {
+      const tbody = document.getElementById('video-table-body');
+      tbody.innerHTML = '';
+
+      let activeCount = 0;
+      let draftCount = 0;
+
+      shortsData.forEach((item, index) => {
+        if (item.active) activeCount++; else draftCount++;
+
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-50/80 transition-colors group";
+        tr.innerHTML = `
+          <td class="py-3 px-3 text-center">
+            <div class="flex items-center justify-center gap-1">
+              <span class="font-mono text-slate-400 font-bold">${index + 1}</span>
+              <div class="flex flex-col gap-0.5">
+                <button onclick="moveOrder(${index}, -1)" ${index === 0 ? 'disabled class="opacity-20"' : 'class="hover:text-brand-600 text-slate-400"'} title="Move Up">
+                  <i data-lucide="chevron-up" class="w-3 h-3"></i>
+                </button>
+                <button onclick="moveOrder(${index}, 1)" ${index === shortsData.length - 1 ? 'disabled class="opacity-20"' : 'class="hover:text-brand-600 text-slate-400"'} title="Move Down">
+                  <i data-lucide="chevron-down" class="w-3 h-3"></i>
+                </button>
+              </div>
+            </div>
+          </td>
+
+          <td class="py-3 px-4">
+            <div onclick="openLightboxFromIndex(${index})" class="w-16 aspect-[9/16] rounded-lg overflow-hidden bg-black relative shadow-xs group-hover:shadow cursor-pointer">
+              <img src="https://img.youtube.com/vi/${item.youtubeId}/hqdefault.jpg" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+              <div class="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors"></div>
+              <div class="absolute inset-0 flex items-center justify-center">
+                <div class="w-6 h-6 rounded-full bg-white/40 backdrop-blur-xs flex items-center justify-center text-white">
+                  <i data-lucide="play" class="w-3 h-3 fill-white ml-0.5"></i>
+                </div>
+              </div>
+              <span class="absolute top-1 left-1 bg-rose-600 text-[8px] font-bold text-white px-1 rounded">
+                ${item.badge}
+              </span>
+            </div>
+          </td>
+
+          <td class="py-3 px-4">
+            <p class="font-bold text-slate-900 text-xs leading-snug group-hover:text-brand-600 cursor-pointer" onclick="editShort('${item.id}')">
+              ${item.title}
+            </p>
+            <p class="text-[11px] text-teal-700 font-medium mt-0.5 flex items-center gap-1">
+              <i data-lucide="map-pin" class="w-3 h-3 text-teal-600"></i> ${item.location}
+            </p>
+          </td>
+
+          <td class="py-3 px-4">
+            <div class="flex items-center gap-2">
+              <img src="${item.guideAvatar}" alt="${item.guideName}" class="w-6 h-6 rounded-full object-cover border border-slate-200">
+              <span class="text-xs font-semibold text-slate-800">${item.guideName}</span>
+            </div>
+          </td>
+
+          <td class="py-3 px-4 font-mono text-[11px] text-slate-600">
+            <div class="flex items-center gap-1.5">
+              <i data-lucide="youtube" class="w-3.5 h-3.5 text-rose-600"></i>
+              <a href="https://www.youtube.com/shorts/${item.youtubeId}" target="_blank" class="hover:underline flex items-center gap-0.5 text-slate-700">
+                ${item.youtubeId}
+                <i data-lucide="external-link" class="w-2.5 h-2.5 text-slate-400"></i>
+              </a>
+            </div>
+          </td>
+
+          <td class="py-3 px-4">
+            ${item.linkedTitle ? `
+              <span class="inline-flex items-center gap-1 text-[11px] text-brand-700 bg-brand-50 px-2 py-0.5 rounded-full border border-brand-100 font-medium">
+                <i data-lucide="link" class="w-2.5 h-2.5"></i> ${item.linkedTitle}
+              </span>
+            ` : `<span class="text-slate-400 text-[11px] italic">None</span>`}
+          </td>
+
+          <td class="py-3 px-4 text-center">
+            <button 
+              onclick="toggleStatus(${index})" 
+              class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold transition-all ${item.active ? 'bg-emerald-100 text-emerald-800 hover:bg-emerald-200' : 'bg-slate-200 text-slate-600 hover:bg-slate-300'}"
+            >
+              <span class="w-1.5 h-1.5 rounded-full ${item.active ? 'bg-emerald-600' : 'bg-slate-400'}"></span>
+              ${item.active ? 'Active' : 'Draft'}
+            </button>
+          </td>
+
+          <td class="py-3 px-4 text-right">
+            <div class="flex items-center justify-end gap-1.5">
+              <button onclick="openLightboxFromIndex(${index})" class="p-1.5 text-slate-400 hover:text-brand-600 hover:bg-slate-100 rounded" title="Preview Short">
+                <i data-lucide="eye" class="w-4 h-4"></i>
+              </button>
+              <button onclick="editShort('${item.id}')" class="p-1.5 text-slate-400 hover:text-blue-600 hover:bg-slate-100 rounded" title="Edit">
+                <i data-lucide="edit-2" class="w-4 h-4"></i>
+              </button>
+              <button onclick="deleteShort(${index})" class="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-slate-100 rounded" title="Delete">
+                <i data-lucide="trash-2" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      // Update counters
+      document.getElementById('metric-active').textContent = `${activeCount} Videos`;
+      document.getElementById('metric-drafts').textContent = `${draftCount} Video`;
+      document.getElementById('badge-count').textContent = `${activeCount} Live`;
+      document.getElementById('total-count-label').textContent = shortsData.length;
+
+      lucide.createIcons();
+    }
+
+    // Render Frontend Row (Placement: Directly Above Hero on /blogs)
+    function renderFrontendRow() {
+      const container = document.getElementById('frontend-shorts-row');
+      container.innerHTML = '';
+
+      const activeVideos = shortsData.filter(v => v.active);
+
+      activeVideos.forEach((video, idx) => {
+        const card = document.createElement('div');
+        card.onclick = () => openLightboxFromIndex(shortsData.indexOf(video));
+        card.className = "relative shrink-0 w-[140px] sm:w-[160px] md:w-[175px] aspect-[9/16] rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 snap-start group cursor-pointer bg-slate-900 border border-slate-200 select-none";
+        card.innerHTML = `
+          <img 
+            src="https://img.youtube.com/vi/${video.youtubeId}/hqdefault.jpg" 
+            alt="${video.title}"
+            class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          />
+          <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/90"></div>
+          
+          <!-- Guide Avatar -->
+          <div class="absolute top-2.5 left-2.5 z-10 flex items-center gap-1.5">
+            <img 
+              src="${video.guideAvatar}" 
+              alt="${video.guideName}" 
+              class="w-7 h-7 rounded-full object-cover border-2 border-white shadow"
+            />
+            <span class="bg-black/50 backdrop-blur-xs text-[9px] font-bold text-white px-1.5 py-0.5 rounded">
+              ${video.guideName}
+            </span>
+          </div>
+
+          <!-- Play button -->
+          <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <div class="w-9 h-9 rounded-full bg-white/30 backdrop-blur-md text-white flex items-center justify-center shadow group-hover:scale-110 group-hover:bg-rose-600 transition-all">
+              <i data-lucide="play" class="w-4 h-4 fill-white ml-0.5"></i>
+            </div>
+          </div>
+
+          <!-- Title & Location -->
+          <div class="absolute bottom-2.5 left-2.5 right-2.5 z-10 text-white">
+            <span class="bg-rose-600 text-[9px] font-bold px-1.5 py-0.2 rounded inline-block mb-1">
+              ${video.badge}
+            </span>
+            <p class="text-xs font-bold leading-tight line-clamp-2 drop-shadow">
+              ${video.title}
+            </p>
+            <p class="text-[9px] text-teal-200 mt-1 flex items-center gap-1 font-medium">
+              <i data-lucide="map-pin" class="w-2.5 h-2.5"></i> ${video.location}
+            </p>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+
+      lucide.createIcons();
+    }
+
+    // Move order up or down
+    function moveOrder(index, direction) {
+      const targetIndex = index + direction;
+      if (targetIndex < 0 || targetIndex >= shortsData.length) return;
+      const item = shortsData.splice(index, 1)[0];
+      shortsData.splice(targetIndex, 0, item);
+      renderAdminTable();
+      renderFrontendRow();
+    }
+
+    // Toggle Active / Draft
+    function toggleStatus(index) {
+      shortsData[index].active = !shortsData[index].active;
+      renderAdminTable();
+      renderFrontendRow();
+    }
+
+    // Delete Short
+    function deleteShort(index) {
+      if (confirm(`Remove "${shortsData[index].title}" from the shelf?`)) {
+        shortsData.splice(index, 1);
+        renderAdminTable();
+        renderFrontendRow();
+      }
+    }
+
+    // Open Add Modal
+    function openAddModal() {
+      document.getElementById('modal-title-heading').innerHTML = `
+        <i data-lucide="video" class="w-5 h-5 text-brand-600"></i>
+        Add Short Video to /blogs Row
+      `;
+      document.getElementById('form-edit-id').value = '';
+      document.getElementById('form-youtube-url').value = '';
+      document.getElementById('form-title').value = '';
+      document.getElementById('form-location').value = '';
+      document.getElementById('form-guide-name').value = 'Lisa';
+      document.getElementById('form-badge').value = 'Short';
+      document.getElementById('form-status-toggle').checked = true;
+      document.getElementById('form-linked-article').value = '';
+      
+      // Default placeholder thumbnail
+      document.getElementById('form-preview-thumb').src = "https://img.youtube.com/vi/JNE1T-Q1TBU/hqdefault.jpg";
+      document.getElementById('form-detected-id').textContent = "ID: (Pending input)";
+
+      document.getElementById('admin-modal').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    // Edit Existing Short
+    function editShort(id) {
+      const item = shortsData.find(x => x.id === id);
+      if (!item) return;
+
+      document.getElementById('modal-title-heading').innerHTML = `
+        <i data-lucide="edit" class="w-5 h-5 text-brand-600"></i>
+        Edit Short Video
+      `;
+      document.getElementById('form-edit-id').value = item.id;
+      document.getElementById('form-youtube-url').value = `https://www.youtube.com/shorts/${item.youtubeId}`;
+      document.getElementById('form-title').value = item.title;
+      document.getElementById('form-location').value = item.location;
+      document.getElementById('form-guide-name').value = item.guideName;
+      document.getElementById('form-guide-avatar').value = item.guideAvatar;
+      document.getElementById('form-badge').value = item.badge;
+      document.getElementById('form-status-toggle').checked = item.active;
+      document.getElementById('form-linked-article').value = item.linkedArticle;
+
+      document.getElementById('form-preview-thumb').src = `https://img.youtube.com/vi/${item.youtubeId}/hqdefault.jpg`;
+      document.getElementById('form-detected-id').textContent = `ID: ${item.youtubeId}`;
+
+      document.getElementById('admin-modal').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function closeAdminModal() {
+      document.getElementById('admin-modal').classList.add('hidden');
+    }
+
+    // Extract YouTube ID from URL or raw text
+    function extractYouTubeId(url) {
+      if (!url) return '';
+      url = url.trim();
+      if (url.length === 11 && !url.includes('/') && !url.includes('.')) return url;
+      const regex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?|shorts)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i;
+      const match = url.match(regex);
+      return match ? match[1] : '';
+    }
+
+    function previewYouTubeInput(val) {
+      const id = extractYouTubeId(val);
+      if (id) {
+        document.getElementById('form-preview-thumb').src = `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
+        document.getElementById('form-detected-id').textContent = `ID: ${id}`;
+      }
+    }
+
+    function testAutoFetch() {
+      const sampleId = "JNE1T-Q1TBU";
+      document.getElementById('form-youtube-url').value = `https://www.youtube.com/shorts/${sampleId}`;
+      previewYouTubeInput(sampleId);
+      if (!document.getElementById('form-title').value) {
+        document.getElementById('form-title').value = "Sunrise kayak loop in Kampot";
+      }
+      if (!document.getElementById('form-location').value) {
+        document.getElementById('form-location').value = "Kampot River Trail";
+      }
+    }
+
+    // Handle Form Submit
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      const editId = document.getElementById('form-edit-id').value;
+      const rawUrl = document.getElementById('form-youtube-url').value;
+      const ytId = extractYouTubeId(rawUrl) || "JNE1T-Q1TBU";
+      const title = document.getElementById('form-title').value;
+      const location = document.getElementById('form-location').value;
+      const guideName = document.getElementById('form-guide-name').value;
+      const guideAvatar = document.getElementById('form-guide-avatar').value;
+      const badge = document.getElementById('form-badge').value;
+      const active = document.getElementById('form-status-toggle').checked;
+      const linkedArticle = document.getElementById('form-linked-article').value;
+
+      let linkedTitle = "";
+      if (linkedArticle.includes('6a72f375c211742677db1b06')) linkedTitle = "Solo vs Group Hiking Dilemma";
+      else if (linkedArticle.includes('kampot')) linkedTitle = "Kampot Beyond Pepper";
+      else if (linkedArticle.includes('cardamom')) linkedTitle = "Into Deep Canopy";
+      else if (linkedArticle) linkedTitle = "Related Tour/Blog";
+
+      if (editId) {
+        const item = shortsData.find(x => x.id === editId);
+        if (item) {
+          item.youtubeId = ytId;
+          item.title = title;
+          item.location = location;
+          item.guideName = guideName;
+          item.guideAvatar = guideAvatar;
+          item.badge = badge;
+          item.active = active;
+          item.linkedArticle = linkedArticle;
+          item.linkedTitle = linkedTitle;
+        }
+      } else {
+        const newItem = {
+          id: "short-" + Date.now(),
+          youtubeId: ytId,
+          title: title,
+          location: location,
+          guideName: guideName,
+          guideAvatar: guideAvatar,
+          badge: badge,
+          active: active,
+          linkedArticle: linkedArticle,
+          linkedTitle: linkedTitle,
+          views: "0"
+        };
+        // Add to front of shelf
+        shortsData.unshift(newItem);
+      }
+
+      closeAdminModal();
+      renderAdminTable();
+      renderFrontendRow();
+    }
+
+    function saveReorderNotice() {
+      alert("Order saved! The new sequence is now live on sololandscapes.co/blogs above the hero section.");
+    }
+
+    // Scroll frontend row
+    function scrollFrontendRow(direction) {
+      const container = document.getElementById('frontend-shorts-row');
+      const amount = direction === 'left' ? -350 : 350;
+      container.scrollBy({ left: amount, behavior: 'smooth' });
+    }
+
+    // =================================================================
+    // LIGHTBOX VIDEO PLAYER & SWIPE LOGIC
+    // =================================================================
+    function openLightboxFromIndex(idx) {
+      currentPlayingIndex = idx;
+      updateLightboxContent();
+      document.getElementById('video-lightbox').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function closeVideoLightbox() {
+      document.getElementById('video-lightbox').classList.add('hidden');
+      document.getElementById('lightbox-iframe').src = "";
+    }
+
+    function updateLightboxContent() {
+      const item = shortsData[currentPlayingIndex];
+      if (!item) return;
+
+      const iframe = document.getElementById('lightbox-iframe');
+      // Clean embed with controls enabled, no related videos
+      iframe.src = `https://www.youtube.com/embed/${item.youtubeId}?autoplay=1&playsinline=1&rel=0&modestbranding=1`;
+
+      document.getElementById('lightbox-index-badge').textContent = `${currentPlayingIndex + 1} / ${shortsData.length}`;
+      document.getElementById('lightbox-external-btn').href = `https://www.youtube.com/shorts/${item.youtubeId}`;
+      document.getElementById('lightbox-guide-badge').textContent = `Guide ${item.guideName}`;
+      document.getElementById('lightbox-location-badge').innerHTML = `<i data-lucide="map-pin" class="w-2.5 h-2.5"></i> ${item.location}`;
+      document.getElementById('lightbox-title').textContent = item.title;
+
+      const ctaContainer = document.getElementById('lightbox-cta-container');
+      const ctaBtn = document.getElementById('lightbox-cta-btn');
+      if (item.linkedArticle) {
+        ctaContainer.classList.remove('hidden');
+        ctaBtn.href = item.linkedArticle;
+        ctaBtn.innerHTML = `<i data-lucide="book-open" class="w-3 h-3 text-brand-600"></i> Read: ${item.linkedTitle || 'Related Guide'} &rarr;`;
+      } else {
+        ctaContainer.classList.add('hidden');
+      }
+
+      lucide.createIcons();
+    }
+
+    function navigateVideo(direction) {
+      currentPlayingIndex += direction;
+      if (currentPlayingIndex < 0) currentPlayingIndex = shortsData.length - 1;
+      if (currentPlayingIndex >= shortsData.length) currentPlayingIndex = 0;
+      updateLightboxContent();
+    }
+
+    // Touch Swipe Detection (Up / Down)
+    function setupSwipeHandlers() {
+      const touchArea = document.getElementById('lightbox-touch-area');
+      let startY = 0;
+      let startX = 0;
+
+      touchArea.addEventListener('touchstart', (e) => {
+        startY = e.touches[0].clientY;
+        startX = e.touches[0].clientX;
+      }, { passive: true });
+
+      touchArea.addEventListener('touchend', (e) => {
+        const diffY = e.changedTouches[0].clientY - startY;
+        const diffX = e.changedTouches[0].clientX - startX;
+
+        // Ensure vertical gesture is dominant and surpasses threshold
+        if (Math.abs(diffY) > Math.abs(diffX) && Math.abs(diffY) > 45) {
+          if (diffY < 0) {
+            // Swiped UP -> Next video
+            navigateVideo(1);
+          } else {
+            // Swiped DOWN -> Previous video
+            navigateVideo(-1);
+          }
+        }
+      }, { passive: true });
+    }
+
+    window.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
