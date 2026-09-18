@@ -744,8 +744,8 @@
       </div>
     </div>
 
-    <!-- Main Video Frame: 100% UNTOUCHED, ZERO OVERLAYS INSIDE -->
-    <div id="modal-frame-box" class="relative w-full max-w-[400px] aspect-[9/16] max-h-[calc(100vh-140px)] sm:max-h-[720px] bg-black rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-white/10 shrink-0 transition-transform duration-200">
+    <!-- Main Video Frame -->
+    <div id="modal-frame-box" class="relative w-full max-w-[400px] aspect-[9/16] max-h-[calc(100vh-140px)] sm:max-h-[720px] bg-black rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-white/10 shrink-0">
       <iframe 
         id="modal-iframe" 
         class="w-full h-full object-cover" 
@@ -754,6 +754,21 @@
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
         allowfullscreen
       ></iframe>
+
+      <!-- Interactive Swipe & Tap Zone: Enables vertical scrolling up/down across the video while leaving the bottom 60px open for YouTube's scrub bar -->
+      <div 
+        id="reel-touch-zone" 
+        class="absolute inset-x-0 top-0 bottom-[60px] z-20 cursor-grab active:cursor-grabbing" 
+        style="touch-action: none;"
+        title="Swipe UP / DOWN to switch video, Tap to Play/Pause"
+      ></div>
+
+      <!-- Play / Pause Flash Toast Indicator -->
+      <div id="play-pause-toast" class="absolute inset-0 pointer-events-none z-30 flex items-center justify-center opacity-0 transition-opacity duration-200">
+        <div class="w-16 h-16 rounded-full bg-black/70 backdrop-blur-md text-white flex items-center justify-center shadow-2xl border border-white/20">
+          <i id="play-pause-icon" data-lucide="pause" class="w-8 h-8 fill-white"></i>
+        </div>
+      </div>
     </div>
 
     <!-- Bottom Up/Down Scroll Navigation Bar: Easy thumb navigation on mobile and desktop -->
@@ -902,8 +917,9 @@
       const iframe = document.getElementById('modal-iframe');
       if (!iframe) return;
 
-      // Clean YouTube player with controls enabled and autoplay
-      iframe.src = `https://www.youtube.com/embed/${story.youtubeId}?autoplay=1&playsinline=1&modestbranding=1&rel=0`;
+      // Clean YouTube player with controls and JavaScript API enabled for play/pause
+      iframe.src = `https://www.youtube.com/embed/${story.youtubeId}?autoplay=1&playsinline=1&modestbranding=1&rel=0&enablejsapi=1`;
+      isStoryPlaying = true;
 
       // Update external YouTube Shorts link
       const ytLink = document.getElementById('modal-yt-link');
@@ -939,42 +955,74 @@
       card.classList.remove('cursor-pointer', 'group');
     }
 
+    let isStoryTransitioning = false;
+
     function nextStory() {
-      if (currentStoryIndex < STORIES.length - 1) {
-        animateVerticalTransition('down');
-        currentStoryIndex++;
-        renderStory();
-      } else {
-        // Loop back to start
-        animateVerticalTransition('down');
-        currentStoryIndex = 0;
-        renderStory();
+      if (isStoryTransitioning) return;
+      isStoryTransitioning = true;
+      const frameBox = document.getElementById('modal-frame-box');
+      
+      if (frameBox) {
+        frameBox.style.transition = 'transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.18s';
+        frameBox.style.transform = 'translateY(-55px)';
+        frameBox.style.opacity = '0.3';
       }
+
+      setTimeout(() => {
+        if (currentStoryIndex < STORIES.length - 1) {
+          currentStoryIndex++;
+        } else {
+          currentStoryIndex = 0;
+        }
+        renderStory();
+
+        if (frameBox) {
+          frameBox.style.transition = 'none';
+          frameBox.style.transform = 'translateY(55px)';
+          requestAnimationFrame(() => {
+            frameBox.style.transition = 'transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.22s';
+            frameBox.style.transform = 'translateY(0)';
+            frameBox.style.opacity = '1';
+            setTimeout(() => { isStoryTransitioning = false; }, 220);
+          });
+        } else {
+          isStoryTransitioning = false;
+        }
+      }, 180);
     }
 
     function prevStory() {
-      if (currentStoryIndex > 0) {
-        animateVerticalTransition('up');
-        currentStoryIndex--;
-        renderStory();
-      } else {
-        // Go to last
-        animateVerticalTransition('up');
-        currentStoryIndex = STORIES.length - 1;
-        renderStory();
-      }
-    }
+      if (isStoryTransitioning) return;
+      isStoryTransitioning = true;
+      const frameBox = document.getElementById('modal-frame-box');
 
-    // Subtle slide transition animation
-    function animateVerticalTransition(direction) {
-      const container = document.getElementById('modal-frame-box');
-      if (!container) return;
-      container.style.transform = direction === 'down' ? 'translateY(14px)' : 'translateY(-14px)';
-      container.style.opacity = '0.7';
+      if (frameBox) {
+        frameBox.style.transition = 'transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.18s';
+        frameBox.style.transform = 'translateY(55px)';
+        frameBox.style.opacity = '0.3';
+      }
+
       setTimeout(() => {
-        container.style.transform = 'translateY(0)';
-        container.style.opacity = '1';
-      }, 150);
+        if (currentStoryIndex > 0) {
+          currentStoryIndex--;
+        } else {
+          currentStoryIndex = STORIES.length - 1;
+        }
+        renderStory();
+
+        if (frameBox) {
+          frameBox.style.transition = 'none';
+          frameBox.style.transform = 'translateY(-55px)';
+          requestAnimationFrame(() => {
+            frameBox.style.transition = 'transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.22s';
+            frameBox.style.transform = 'translateY(0)';
+            frameBox.style.opacity = '1';
+            setTimeout(() => { isStoryTransitioning = false; }, 220);
+          });
+        } else {
+          isStoryTransitioning = false;
+        }
+      }, 180);
     }
 
     function closeStoryModal() {
@@ -983,16 +1031,106 @@
       }
       const modal = document.getElementById('story-modal');
       const iframe = document.getElementById('modal-iframe');
+      const frameBox = document.getElementById('modal-frame-box');
       modal.classList.add('opacity-0');
       setTimeout(() => {
         iframe.src = '';
+        if (frameBox) {
+          frameBox.style.transform = 'translateY(0)';
+          frameBox.style.opacity = '1';
+        }
         modal.classList.remove('flex');
         modal.classList.add('hidden');
         document.body.style.overflow = '';
       }, 200);
     }
 
-    // Mouse Wheel Scroll to navigate between videos
+    // ── Touch Drag & Swipe on Video (TikTok / Reels Style Gesture Engine) ──
+    const touchZone = document.getElementById('reel-touch-zone');
+    const frameBoxEl = document.getElementById('modal-frame-box');
+    let tStartY = 0;
+    let tStartX = 0;
+    let tStartTime = 0;
+    let isDraggingReel = false;
+    let isStoryPlaying = true;
+
+    if (touchZone && frameBoxEl) {
+      touchZone.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 0) return;
+        tStartY = e.touches[0].clientY;
+        tStartX = e.touches[0].clientX;
+        tStartTime = Date.now();
+        isDraggingReel = true;
+        frameBoxEl.style.transition = 'none';
+      }, { passive: true });
+
+      touchZone.addEventListener('touchmove', (e) => {
+        if (!isDraggingReel || e.touches.length === 0) return;
+        const currentY = e.touches[0].clientY;
+        const deltaY = currentY - tStartY;
+        const deltaX = Math.abs(e.touches[0].clientX - tStartX);
+
+        // Real-time elastic vertical following when dragging up/down
+        if (Math.abs(deltaY) > deltaX) {
+          frameBoxEl.style.transform = `translateY(${deltaY * 0.65}px)`;
+        }
+      }, { passive: true });
+
+      touchZone.addEventListener('touchend', (e) => {
+        if (!isDraggingReel) return;
+        isDraggingReel = false;
+        if (e.changedTouches.length === 0) return;
+
+        const deltaY = e.changedTouches[0].clientY - tStartY;
+        const duration = Date.now() - tStartTime;
+
+        // 1. Swiped UP by more than 35px -> Next Video
+        if (deltaY < -35) {
+          nextStory();
+        }
+        // 2. Swiped DOWN by more than 35px -> Previous Video
+        else if (deltaY > 35) {
+          prevStory();
+        }
+        // 3. Quick Tap (<10px movement, <250ms) -> Toggle Play / Pause
+        else if (Math.abs(deltaY) < 10 && duration < 250) {
+          frameBoxEl.style.transition = 'transform 0.15s ease-out';
+          frameBoxEl.style.transform = 'translateY(0)';
+          toggleStoryPlayPause();
+        }
+        // 4. Incomplete drag -> Elastic snap back to center
+        else {
+          frameBoxEl.style.transition = 'transform 0.2s cubic-bezier(0.16, 1, 0.3, 1)';
+          frameBoxEl.style.transform = 'translateY(0)';
+        }
+      }, { passive: true });
+    }
+
+    function toggleStoryPlayPause() {
+      const iframe = document.getElementById('modal-iframe');
+      const toast = document.getElementById('play-pause-toast');
+      const icon = document.getElementById('play-pause-icon');
+      if (!iframe) return;
+
+      if (isStoryPlaying) {
+        iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+        isStoryPlaying = false;
+        if (icon) icon.setAttribute('data-lucide', 'play');
+      } else {
+        iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+        isStoryPlaying = true;
+        if (icon) icon.setAttribute('data-lucide', 'pause');
+      }
+      lucide.createIcons();
+
+      // Flash quick indicator in center
+      if (toast) {
+        toast.classList.remove('opacity-0');
+        setTimeout(() => toast.classList.add('opacity-0'), 450);
+      }
+    }
+
+    // Mouse Wheel Scroll on desktop to navigate between videos
     let isWheelThrottled = false;
     document.getElementById('story-modal').addEventListener('wheel', (e) => {
       const modal = document.getElementById('story-modal');
@@ -1007,27 +1145,6 @@
         isWheelThrottled = true;
         prevStory();
         setTimeout(() => { isWheelThrottled = false; }, 380);
-      }
-    }, { passive: true });
-
-    // Touch Swipe on modal backdrop / bars to navigate between videos
-    let touchStartY = 0;
-    const modalEl = document.getElementById('story-modal');
-    modalEl.addEventListener('touchstart', (e) => {
-      if (e.target.tagName === 'IFRAME') return;
-      if (e.touches.length > 0) {
-        touchStartY = e.touches[0].clientY;
-      }
-    }, { passive: true });
-
-    modalEl.addEventListener('touchend', (e) => {
-      if (e.target.tagName === 'IFRAME') return;
-      if (e.changedTouches.length > 0) {
-        const diff = touchStartY - e.changedTouches[0].clientY;
-        if (Math.abs(diff) > 40) {
-          if (diff > 0) nextStory();
-          else prevStory();
-        }
       }
     }, { passive: true });
 
