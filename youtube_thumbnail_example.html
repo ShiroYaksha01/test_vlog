@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YouTube Video Embed & Thumbnail Design Example</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen py-10 px-4 sm:px-6">
+
+  <div class="max-w-4xl mx-auto space-y-8">
+    
+    <!-- Header -->
+    <div class="text-center space-y-2">
+      <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">
+        <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Working Interactive Prototype
+      </span>
+      <h1 class="text-2xl sm:text-3xl font-black text-slate-900">
+        YouTube Video Embed &amp; Thumbnail Design
+      </h1>
+      <p class="text-slate-500 text-sm max-w-xl mx-auto">
+        Shows high-res thumbnail with play overlay. Replaces with real autoplaying YouTube video only when clicked (faster load times, zero layout shifts).
+      </p>
+    </div>
+
+    <!-- Interactive Insert Box (Simulating Editor Toolbar from screenshot) -->
+    <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm space-y-4">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center">
+            <i data-lucide="video" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h3 class="text-sm font-bold text-slate-800">Insert Video Tool (Simulating "+ Add" Button)</h3>
+            <p class="text-xs text-slate-400">Paste any YouTube or YouTube Short URL to preview</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-2">
+        <div class="relative flex-1">
+          <i data-lucide="link" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+          <input 
+            id="yt-input-url" 
+            type="text" 
+            placeholder="e.g. https://www.youtube.com/watch?v=J5Ow6NnJWlQ"
+            value="https://www.youtube.com/watch?v=J5Ow6NnJWlQ"
+            class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:border-transparent"
+          />
+        </div>
+        <button 
+          onclick="handleInsertVideo()"
+          class="px-5 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 active:scale-95 text-white text-sm font-semibold transition-all flex items-center justify-center gap-2 shadow-sm"
+        >
+          <i data-lucide="plus-circle" class="w-4 h-4"></i> Insert into Article
+        </button>
+      </div>
+    </div>
+
+    <!-- Article Container (Matches image.png) -->
+    <article class="bg-white rounded-2xl p-6 sm:p-10 border border-slate-200/80 shadow-sm space-y-6">
+      
+      <!-- Article Header -->
+      <div class="space-y-3 pb-6 border-b border-slate-100">
+        <span class="text-xs font-bold uppercase tracking-wider text-emerald-700">Solo Travel Guide</span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 leading-tight">
+          Solo vs. Group Adventures: Which One Is Right for You?
+        </h2>
+        <div class="flex items-center gap-3 text-xs text-slate-400">
+          <span>By Elena Rostova</span>
+          <span>•</span>
+          <span>5 min read</span>
+        </div>
+      </div>
+
+      <!-- Article Body (Matches image.png text) -->
+      <div class="prose prose-slate max-w-none space-y-4 text-slate-600 leading-relaxed text-sm sm:text-base">
+        <p>
+          We built this company around the idea that traveling solo shouldn't mean traveling alone. That distinction is basically the whole answer to this question, but it's worth breaking down properly, because solo and group trips genuinely give you different things, and neither one is the better option across the board.
+        </p>
+
+        <h3 class="text-lg sm:text-xl font-bold text-slate-900 pt-2">
+          What Solo Travel Actually Gives You
+        </h3>
+
+        <p>
+          Nobody to negotiate the schedule with. You linger at the waterfall as long as you want, skip the market stop if you're tired, decide on a whim to add an extra day in Kampot. Solo travel also has a way of pushing you into conversations you wouldn't otherwise have, with guides, with other travelers, with people in the village you're passing through.
+        </p>
+
+        <!-- DYNAMIC YOUTUBE EMBED FACADE INJECTION SPOT -->
+        <div id="video-embed-zone" class="my-6">
+          <!-- Default Rendered Facade Card -->
+          <div 
+            id="facade-card" 
+            class="relative aspect-video w-full rounded-2xl overflow-hidden bg-slate-950 shadow-xl group cursor-pointer border border-slate-200 transition-all duration-300 hover:shadow-2xl"
+            onclick="playEmbeddedVideo('J5Ow6NnJWlQ')"
+          >
+            <!-- YouTube Thumbnail -->
+            <img 
+              id="facade-img"
+              src="https://img.youtube.com/vi/J5Ow6NnJWlQ/maxresdefault.jpg" 
+              alt="Video Thumbnail"
+              onerror="this.src='https://img.youtube.com/vi/J5Ow6NnJWlQ/hqdefault.jpg'"
+              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+
+            <!-- Subtle Gradient Overlay -->
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-black/30 group-hover:from-black/80 transition-colors"></div>
+
+            <!-- Top Left Pill Badge -->
+            <div class="absolute top-3.5 left-3.5 sm:top-4 sm:left-4 flex items-center gap-2 bg-black/50 backdrop-blur-md px-3 py-1.5 rounded-full text-white text-xs font-medium border border-white/10 shadow">
+              <svg class="w-4 h-4 text-red-500 fill-current" viewBox="0 0 24 24">
+                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+              </svg>
+              <span>Field Footage</span>
+            </div>
+
+            <!-- Play Button with Pulsing Glow on Hover -->
+            <div class="absolute inset-0 flex items-center justify-center">
+              <div class="relative flex items-center justify-center">
+                <span class="absolute inline-flex h-20 w-20 rounded-full bg-red-600/30 opacity-0 group-hover:opacity-100 group-hover:animate-ping transition-opacity duration-300"></span>
+                <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-red-600 hover:bg-red-700 text-white flex items-center justify-center shadow-xl shadow-red-600/40 transform transition-all duration-300 group-hover:scale-110">
+                  <i data-lucide="play" class="w-7 h-7 fill-white translate-x-0.5"></i>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bottom Video Details Bar -->
+            <div class="absolute bottom-3 left-4 right-4 text-white flex items-center justify-between">
+              <span id="facade-title" class="text-sm sm:text-base font-semibold truncate drop-shadow">
+                Solo Adventures on the Kampot Water Trails
+              </span>
+              <span class="text-[11px] bg-black/60 backdrop-blur-md px-2 py-0.5 rounded text-white/90 border border-white/10 shrink-0 ml-3">
+                Click to play
+              </span>
+            </div>
+          </div>
+          <p class="text-center text-xs text-slate-400 mt-2">
+            Clicking the thumbnail loads the video player instantly without slowing down your initial page load.
+          </p>
+        </div>
+
+        <p>
+          The tradeoff is that certain trips are genuinely harder or riskier to do completely alone, remote treks, for example, where having other people around matters for both safety and morale on long, difficult days.
+        </p>
+      </div>
+
+    </article>
+
+  </div>
+
+  <script>
+    lucide.createIcons();
+
+    // Helper: Extract YouTube ID from standard, shortened, or shorts links
+    function extractYouTubeID(url) {
+      const regex = /(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|shorts\/))([\w-]{11})/;
+      const match = url.match(regex);
+      return match ? match[1] : null;
+    }
+
+    // Replace the thumbnail facade with the autoplaying iframe
+    function playEmbeddedVideo(videoId) {
+      const container = document.getElementById('facade-card');
+      if (!container) return;
+
+      container.innerHTML = `
+        <iframe 
+          class="w-full h-full absolute inset-0 rounded-2xl"
+          src="https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1" 
+          title="YouTube video player" 
+          frameborder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+          allowfullscreen>
+        </iframe>
+      `;
+      container.classList.remove('cursor-pointer', 'group');
+    }
+
+    // Dynamic insert handler
+    function handleInsertVideo() {
+      const input = document.getElementById('yt-input-url');
+      const videoId = extractYouTubeID(input.value.trim());
+
+      if (!videoId) {
+        alert('Please enter a valid YouTube URL (e.g., https://www.youtube.com/watch?v=J5Ow6NnJWlQ or shorts URL)');
+        return;
+      }
+
+      const zone = document.getElementById('video-embed-zone');
+      zone.innerHTML = `
+        <div 
+          id="facade-card" 
+          class="relative aspect-video w-full rounded-2xl overflow-hidden bg-slate-950 shadow-xl group cursor-pointer border border-slate-200 transition-all duration-300 hover:shadow-2xl"
+          onclick="playEmbeddedVideo('${videoId}')"
+        >
+          <img 
+            id="facade-img"
+            src="https://img.youtube.com/vi/${videoId}/maxresdefault.jpg" 
+            alt="Video Thumbnail"
+            onerror="this.src='https://img.youtube.com/vi/${videoId}/hqdefault.jpg'"
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-black/30 group-hover:from-black/80 transition-colors"></div>
+          <div class="absolute top-3.5 left-3.5 sm:top-4 sm:left-4 flex items-center gap-2 bg-black/50 backdrop-blur-md px-3 py-1.5 rounded-full text-white text-xs font-medium border border-white/10 shadow">
+            <svg class="w-4 h-4 text-red-500 fill-current" viewBox="0 0 24 24">
+              <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+            </svg>
+            <span>YouTube Video</span>
+          </div>
+          <div class="absolute inset-0 flex items-center justify-center">
+            <div class="relative flex items-center justify-center">
+              <span class="absolute inline-flex h-20 w-20 rounded-full bg-red-600/30 opacity-0 group-hover:opacity-100 group-hover:animate-ping transition-opacity duration-300"></span>
+              <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-red-600 hover:bg-red-700 text-white flex items-center justify-center shadow-xl shadow-red-600/40 transform transition-all duration-300 group-hover:scale-110">
+                <i data-lucide="play" class="w-7 h-7 fill-white translate-x-0.5"></i>
+              </div>
+            </div>
+          </div>
+          <div class="absolute bottom-3 left-4 right-4 text-white flex items-center justify-between">
+            <span class="text-sm sm:text-base font-semibold truncate drop-shadow">
+              Video ID: ${videoId}
+            </span>
+            <span class="text-[11px] bg-black/60 backdrop-blur-md px-2 py-0.5 rounded text-white/90 border border-white/10 shrink-0 ml-3">
+              Click to play
+            </span>
+          </div>
+        </div>
+        <p class="text-center text-xs text-slate-400 mt-2">
+          Clicking the thumbnail loads the video player instantly without slowing down your initial page load.
+        </p>
+      `;
+      lucide.createIcons();
+    }
+  </script>
+</body>
+</html>

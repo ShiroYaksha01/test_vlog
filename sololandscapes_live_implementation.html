@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SoloLandscapes — Live Design Implementation (Vlogs & Blogs)</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts matching SoloLandscapes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              50: '#f0f9f8',
+              100: '#dcf0ee',
+              500: '#147474',
+              600: '#0a4a4a',
+              700: '#073636',
+              800: '#062929',
+              900: '#041f1f',
+            },
+            midnight: '#07262b',
+            surface: '#ffffff',
+            background: '#f8faf9',
+            accent: '#f43f5e'
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            poppins: ['"Poppins"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Clean custom styles matching sololandscapes.co */
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    
+    /* Play button pulse */
+    @keyframes pulse-glow {
+      0%, 100% { transform: scale(1); opacity: 0.9; }
+      50% { transform: scale(1.08); opacity: 1; }
+    }
+    .pulse-glow { animation: pulse-glow 2.5s infinite; }
+  </style>
+</head>
+<body class="bg-background text-slate-800 antialiased min-h-screen flex flex-col selection:bg-primary-500 selection:text-white">
+
+  <!-- ================================================================= -->
+  <!-- 0. TOP DEVELOPER ROUTE SWITCHER                                   -->
+  <!-- ================================================================= -->
+  <div class="bg-midnight text-white border-b border-teal-900/60 px-4 py-2 sticky top-0 z-50 shadow-sm">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3 text-xs">
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span class="font-bold text-slate-200">SoloLandscapes.co Specification:</span>
+        <span id="dev-route-label" class="font-mono text-emerald-300 bg-black/40 px-2 py-0.5 rounded border border-white/10">
+          Route: /blogs/6a72f375c211742677db1b06
+        </span>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <span class="text-slate-400 hidden sm:inline">Preview Mode:</span>
+        <div class="bg-black/40 p-0.5 rounded-lg inline-flex border border-white/10">
+          <button 
+            id="btn-route-detail" 
+            onclick="setPageMode('detail')" 
+            class="px-3 py-1 rounded-md text-xs font-semibold bg-primary-500 text-white shadow-sm flex items-center gap-1.5 transition-all"
+          >
+            <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
+            Detail Page (16:9 Long Video)
+          </button>
+          <button 
+            id="btn-route-listing" 
+            onclick="setPageMode('listing')" 
+            class="px-3 py-1 rounded-md text-xs font-medium text-slate-300 hover:text-white flex items-center gap-1.5 transition-all"
+          >
+            <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>
+            /blogs Listing (9:16 Shorts/Reels)
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================================= -->
+  <!-- 1. SOLOLANDSCAPES LIVE HEADER (With "Vlogs" in Navigation)         -->
+  <!-- ================================================================= -->
+  <header class="sticky top-[41px] z-40 bg-surface/90 backdrop-blur-xl border-b border-slate-200/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="#" onclick="setPageMode('listing'); return false;" class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-xl bg-primary-600 text-white flex items-center justify-center font-bold text-sm shadow-sm">
+          SL
+        </div>
+        <span class="text-xl font-bold tracking-tight text-midnight font-poppins">
+          SOLO<span class="text-primary-500">LANDSCAPES</span>
+        </span>
+      </a>
+
+      <!-- Desktop Nav with "Vlogs" integrated -->
+      <nav class="hidden lg:flex items-center gap-7 text-sm font-medium text-slate-600">
+        <a href="#" class="hover:text-primary-600 transition-colors">Home</a>
+        <a href="#" class="hover:text-primary-600 transition-colors">Experiences</a>
+        <a href="#" class="hover:text-primary-600 transition-colors">Destinations</a>
+        
+        <!-- VLOGS TAB (Replaces boring "Blogs") -->
+        <a href="#" onclick="setPageMode('listing'); return false;" class="text-primary-600 font-bold border-b-2 border-primary-600 pb-0.5 flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
+          <span>Vlogs</span>
+        </a>
+
+        <a href="#" class="hover:text-primary-600 transition-colors">Moments</a>
+      </nav>
+
+      <!-- CTA -->
+      <div class="flex items-center gap-3">
+        <a href="/design-your-experiences" class="hidden sm:inline-flex items-center gap-1.5 bg-primary-600 hover:bg-primary-700 text-white text-xs font-semibold px-4 py-2 rounded-full shadow-sm transition-all">
+          <i data-lucide="compass" class="w-3.5 h-3.5"></i> Plan a Trip
+        </a>
+        <button class="text-xs font-semibold px-3 py-1.5 rounded-full border border-slate-300 hover:border-slate-400 text-slate-700">
+          Sign In
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ================================================================= -->
+  <!-- PAGE VIEW A: LIVE BLOG DETAIL PAGE (/blogs/[id])                  -->
+  <!-- Demonstrates 16:9 Long-Form Video Format Embedded in Live Article -->
+  <!-- ================================================================= -->
+  <div id="page-detail" class="flex-1 flex flex-col">
+    
+    <!-- Hero Banner with Live Image & Headline -->
+    <section class="relative h-[48vh] sm:h-[60vh] min-h-[420px] bg-midnight text-white overflow-hidden">
+      <!-- Live WebP Background from sololandscapes.co -->
+      <img 
+        src="https://backend.sololandscapes.co/public/uploads/images/thumbnail-bb762e66-3286-4af5-8a30-9235b880f898.webp" 
+        alt="Solo vs Group Adventures"
+        class="w-full h-full object-cover opacity-60"
+      />
+      <div class="absolute inset-0 bg-gradient-to-t from-midnight via-midnight/40 to-black/30"></div>
+
+      <!-- Live Title & Metadata -->
+      <div class="absolute inset-x-0 bottom-0 px-6 pb-8 sm:pb-12 max-w-4xl mx-auto">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-emerald-300 text-xs font-semibold uppercase tracking-wider mb-3 border border-white/15">
+          <i data-lucide="video" class="w-3.5 h-3.5"></i> Field Vlog &amp; Travel Guide
+        </div>
+        <h1 class="text-2xl sm:text-4xl lg:text-5xl font-black font-poppins leading-tight tracking-tight text-white mb-3">
+          Solo vs. Group Adventures: Which One Is Right for You?
+        </h1>
+        <div class="flex items-center gap-3 text-xs sm:text-sm text-slate-300 font-medium">
+          <span>SoloLandscapes Field Team</span>
+          <span>•</span>
+          <span>Aug 05, 2026</span>
+          <span>•</span>
+          <span class="text-rose-400 font-bold flex items-center gap-1">
+            <i data-lucide="play-circle" class="w-3.5 h-3.5"></i> 14 Min Video Inside
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Article Body -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 py-10 sm:py-14 space-y-8 flex-1">
+      
+      <!-- =============================================================== -->
+      <!-- THE NEW 16:9 LONG-FORM VIDEO COMPONENT (HERO OF THE ARTICLE)   -->
+      <!-- =============================================================== -->
+      <div class="space-y-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-primary-600">
+            <span class="w-2.5 h-2.5 rounded-full bg-rose-600 animate-ping"></span>
+            <span>Watch Full Field Documentary</span>
+          </div>
+          <span class="text-xs text-slate-400 font-semibold bg-slate-100 px-2.5 py-0.5 rounded-md">
+            16:9 4K Quality
+          </span>
+        </div>
+
+        <!-- 16:9 Click-to-Play Facade Card -->
+        <div 
+          id="long-video-container"
+          onclick="mountLongIframe('J5Ow6NnJWlQ')"
+          class="relative aspect-video w-full rounded-2xl overflow-hidden bg-slate-950 shadow-2xl border border-slate-200 group cursor-pointer"
+        >
+          <!-- YouTube Thumbnail -->
+          <img 
+            src="https://img.youtube.com/vi/J5Ow6NnJWlQ/maxresdefault.jpg" 
+            alt="Field Vlog Thumbnail" 
+            onerror="this.src='https://img.youtube.com/vi/J5Ow6NnJWlQ/hqdefault.jpg'"
+            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+          />
+
+          <!-- Gradient Overlay -->
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/30 group-hover:from-black/90 transition-colors"></div>
+
+          <!-- YouTube Pill -->
+          <div class="absolute top-4 left-4 flex items-center gap-2 bg-black/60 backdrop-blur-md px-3.5 py-1.5 rounded-full text-white text-xs font-semibold border border-white/15 shadow">
+            <svg class="w-4 h-4 text-red-500 fill-current" viewBox="0 0 24 24">
+              <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+            </svg>
+            <span>SoloLandscapes YouTube • 14:25</span>
+          </div>
+
+          <!-- Center Play Button -->
+          <div class="absolute inset-0 flex items-center justify-center">
+            <div class="relative flex items-center justify-center">
+              <span class="absolute inline-flex h-20 w-20 rounded-full bg-red-600/30 opacity-0 group-hover:opacity-100 group-hover:animate-ping transition-opacity"></span>
+              <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-red-600 text-white flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform">
+                <i data-lucide="play" class="w-8 h-8 fill-white translate-x-0.5"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Title -->
+          <div class="absolute bottom-3.5 left-4 right-4 text-white flex items-center justify-between">
+            <span class="text-sm font-semibold truncate drop-shadow">
+              Field Vlog: Walking the Kampot trails with local conservation rangers
+            </span>
+            <span class="text-[11px] bg-black/60 backdrop-blur-md px-2.5 py-1 rounded text-white/90 border border-white/10 shrink-0 ml-3">
+              ▶ Click to Play
+            </span>
+          </div>
+        </div>
+
+        <p class="text-xs text-slate-400 text-center">
+          ⚡ Video is lazy-loaded on click: Keeps your article loading under 0.8s for maximum Google SEO &amp; Core Web Vitals score.
+        </p>
+      </div>
+
+      <!-- Quick Takeaways (Anti-Boredom Box) -->
+      <div class="bg-primary-50/70 border border-primary-100 rounded-2xl p-5 sm:p-6 space-y-2">
+        <h4 class="text-xs font-bold text-primary-800 uppercase tracking-wider flex items-center gap-1.5">
+          <i data-lucide="zap" class="w-4 h-4 text-primary-600"></i> Key Takeaways From This Guide
+        </h4>
+        <ul class="text-xs sm:text-sm text-slate-700 space-y-1.5">
+          <li>• <strong>Solo travel</strong> gives total control of your time, but requires higher stamina on remote treks.</li>
+          <li>• <strong>Group adventures</strong> split logistics costs and provide safety in wild terrain like Aural Mountain.</li>
+          <li>• <strong>SoloLandscapes model:</strong> You can join solo, but we pair you with vetted local guides and small traveler circles.</li>
+        </ul>
+      </div>
+
+      <!-- Live Article Content from sololandscapes.co/blogs/6a72f375c211742677db1b06 -->
+      <article class="prose prose-slate max-w-none text-slate-700 leading-relaxed space-y-6 text-base sm:text-lg">
+        <p>
+          We built this company around the idea that traveling solo shouldn't mean traveling alone. That distinction is basically the whole answer to this question, but it's worth breaking down properly, because solo and group trips genuinely give you different things, and neither one is the better option across the board.
+        </p>
+
+        <h2 class="text-2xl font-bold font-poppins text-slate-900 pt-4">
+          What Solo Travel Actually Gives You
+        </h2>
+
+        <p>
+          Nobody to negotiate the schedule with. You linger at the waterfall as long as you want, skip the market stop if you're tired, decide on a whim to add an extra day in Kampot. Solo travel also has a way of pushing you into conversations you wouldn't otherwise have, with guides, with other travelers, with people in the village you're passing through. There's a specific kind of confidence that comes from handling a new place on your own terms.
+        </p>
+
+        <p>
+          The tradeoff is that certain trips are genuinely harder or riskier to do completely alone, remote treks, for example, where having other people around matters for both safety and morale on long, difficult days.
+        </p>
+
+        <!-- Live Image 1 from Sololandscapes Backend -->
+        <div class="my-6 rounded-2xl overflow-hidden shadow-md">
+          <img 
+            src="https://backend.sololandscapes.co/public/uploads/images/thumbnail-01950663-8fb1-4c50-b4ce-1e41bfac4552.webp" 
+            alt="Solo landscapes Waterfall" 
+            class="w-full h-auto object-cover"
+          />
+          <span class="block text-center text-xs text-slate-400 mt-2">Cascading falls in Kampot — photo by field guide Lisa</span>
+        </div>
+
+        <h2 class="text-2xl font-bold font-poppins text-slate-900 pt-4">
+          What Group Travel Actually Gives You
+        </h2>
+
+        <p>
+          A group changes the emotional shape of a hard trip. Aural Mountain on your own is a personal test. Aural Mountain with a group is a shared one, someone hands you water when you're flagging, someone else is the reason you laugh instead of quit on the steep section. Group trips also tend to open doors solo travel doesn't, easier conversations with strangers who become friends by day two, shared costs on things like transport, and less of the mental load of figuring out logistics alone.
+        </p>
+
+        <p>
+          The tradeoff is less flexibility. You move at the group's pace, not yours.
+        </p>
+
+        <!-- Live Image 2 -->
+        <div class="my-6 rounded-2xl overflow-hidden shadow-md">
+          <img 
+            src="https://backend.sololandscapes.co/public/uploads/images/thumbnail-4baad7cc-d30e-4023-ba5d-5d5b2b0f16e1.webp" 
+            alt="Group hike" 
+            class="w-full h-auto object-cover"
+          />
+        </div>
+
+        <h2 class="text-2xl font-bold font-poppins text-slate-900 pt-4">
+          Why "Solo" Doesn't Have to Mean Alone
+        </h2>
+
+        <p>
+          This is the actual point of what we do. Every one of our trips, whether you show up as a solo traveler or as part of a group booking, puts you with a local guide and, in most cases, other travelers doing the same trip. You get the independence of traveling solo, no one waiting on you back home, no shared itinerary to negotiate before you even leave, combined with the built-in company of a group once you're on the ground.
+        </p>
+
+        <!-- Live Image 3 -->
+        <div class="my-6 rounded-2xl overflow-hidden shadow-md">
+          <img 
+            src="https://backend.sololandscapes.co/public/uploads/images/thumbnail-ca328d2b-af8b-450b-94d7-c778373b931c.webp" 
+            alt="Field notes photo" 
+            class="w-full h-auto object-cover"
+          />
+        </div>
+
+        <h2 class="text-2xl font-bold font-poppins text-slate-900 pt-4">
+          How to Decide
+        </h2>
+
+        <p>
+          If you're craving total control over your pace and want space to think, lean solo, but pick a trip with a guide if the terrain calls for it. If you want the shared-hardship kind of memory, the ones that turn into inside jokes for years, lean group. Either way, you don't have to choose between adventure and company. That's exactly the gap we exist to close.
+        </p>
+
+        <div class="pt-4">
+          <a href="#" class="inline-flex items-center gap-2 bg-primary-600 hover:bg-primary-700 text-white font-semibold text-sm px-6 py-3 rounded-full shadow transition-all">
+            <i data-lucide="compass" class="w-4 h-4"></i> Browse Solo-friendly and Group Trips
+          </a>
+        </div>
+      </article>
+
+    </main>
+  </div>
+
+  <!-- ================================================================= -->
+  <!-- PAGE VIEW B: /blogs LISTING PAGE (With 9:16 Shorts/Reels Format)  -->
+  <!-- ================================================================= -->
+  <div id="page-listing" class="hidden flex-1 flex flex-col bg-slate-50">
+    
+    <!-- Hero on /blogs -->
+    <div class="bg-white border-b border-slate-200 py-10 sm:py-14">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <span class="text-xs font-bold uppercase tracking-wider text-rose-600 flex items-center gap-1.5 mb-2">
+          <span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
+          SoloLandscapes Field Vlogs
+        </span>
+        <h1 class="text-3xl sm:text-5xl font-black font-poppins text-slate-900 tracking-tight">
+          Watch Field Moments &amp; Travel Guides
+        </h1>
+        <p class="text-slate-500 text-sm sm:text-base mt-2 max-w-2xl">
+          Quick 30-second vertical reels from our guides on location, and in-depth video travel notes for your next journey.
+        </p>
+      </div>
+    </div>
+
+    <!-- 1. VERTICAL REELS / SHORTS SHELF (9:16 FORMAT) -->
+    <section class="bg-white border-b border-slate-200 py-6 sm:py-8">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center gap-2">
+            <div class="w-7 h-7 rounded-lg bg-rose-600 text-white flex items-center justify-center">
+              <i data-lucide="zap" class="w-4 h-4 fill-white"></i>
+            </div>
+            <div>
+              <h2 class="text-base sm:text-lg font-black text-slate-900">
+                Trending Field Reels &amp; Shorts (9:16)
+              </h2>
+              <span class="text-xs text-slate-400">Quick vertical clips captured live in the field</span>
+            </div>
+          </div>
+          <span class="text-xs font-semibold text-rose-600 bg-rose-50 px-2.5 py-1 rounded-full border border-rose-200">
+            Swipe or Tap to Watch &rarr;
+          </span>
+        </div>
+
+        <!-- 9:16 Vertical Shorts Grid / Shelf -->
+        <div class="flex gap-4 overflow-x-auto pb-4 no-scrollbar">
+          
+          <!-- Short 1 -->
+          <div onclick="openShortModal('JNE1T-Q1TBU', 'Lisa', 'Kampot River Trail')" class="w-[180px] sm:w-[200px] shrink-0 aspect-[9/16] rounded-2xl overflow-hidden bg-black relative cursor-pointer group shadow-md hover:shadow-xl hover:-translate-y-1 transition-all">
+            <img src="https://img.youtube.com/vi/JNE1T-Q1TBU/hqdefault.jpg" alt="Short" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-black/20"></div>
+            
+            <span class="absolute top-2.5 left-2.5 bg-rose-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-md flex items-center gap-1">
+              <i data-lucide="zap" class="w-3 h-3 fill-white"></i> Short
+            </span>
+
+            <div class="absolute inset-0 flex items-center justify-center">
+              <div class="w-11 h-11 rounded-full bg-white/20 backdrop-blur-md border border-white/40 flex items-center justify-center text-white group-hover:scale-110 group-hover:bg-rose-600 transition-all">
+                <i data-lucide="play" class="w-5 h-5 fill-white ml-0.5"></i>
+              </div>
+            </div>
+
+            <div class="absolute bottom-3 left-3 right-3 text-white text-xs font-bold leading-snug line-clamp-2">
+              Sunrise mangrove kayak loop in Kampot
+            </div>
+          </div>
+
+          <!-- Short 2 -->
+          <div onclick="openShortModal('dQw4w9WgXcQ', 'Dara', 'Cardamom Rainforest')" class="w-[180px] sm:w-[200px] shrink-0 aspect-[9/16] rounded-2xl overflow-hidden bg-black relative cursor-pointer group shadow-md hover:shadow-xl hover:-translate-y-1 transition-all">
+            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg" alt="Short" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-black/20"></div>
+            
+            <span class="absolute top-2.5 left-2.5 bg-emerald-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-md flex items-center gap-1">
+              <i data-lucide="zap" class="w-3 h-3 fill-white"></i> Reel
+            </span>
+
+            <div class="absolute inset-0 flex items-center justify-center">
+              <div class="w-11 h-11 rounded-full bg-white/20 backdrop-blur-md border border-white/40 flex items-center justify-center text-white group-hover:scale-110 group-hover:bg-rose-600 transition-all">
+                <i data-lucide="play" class="w-5 h-5 fill-white ml-0.5"></i>
+              </div>
+            </div>
+
+            <div class="absolute bottom-3 left-3 right-3 text-white text-xs font-bold leading-snug line-clamp-2">
+              Crossing jungle springs with local ranger Dara
+            </div>
+          </div>
+
+          <!-- Short 3 -->
+          <div onclick="openShortModal('J5Ow6NnJWlQ', 'Visal', 'Siem Reap Secrets')" class="w-[180px] sm:w-[200px] shrink-0 aspect-[9/16] rounded-2xl overflow-hidden bg-black relative cursor-pointer group shadow-md hover:shadow-xl hover:-translate-y-1 transition-all">
+            <img src="https://img.youtube.com/vi/J5Ow6NnJWlQ/hqdefault.jpg" alt="Short" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-black/20"></div>
+            
+            <span class="absolute top-2.5 left-2.5 bg-cyan-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-md flex items-center gap-1">
+              <i data-lucide="zap" class="w-3 h-3 fill-white"></i> Short
+            </span>
+
+            <div class="absolute inset-0 flex items-center justify-center">
+              <div class="w-11 h-11 rounded-full bg-white/20 backdrop-blur-md border border-white/40 flex items-center justify-center text-white group-hover:scale-110 group-hover:bg-rose-600 transition-all">
+                <i data-lucide="play" class="w-5 h-5 fill-white ml-0.5"></i>
+              </div>
+            </div>
+
+            <div class="absolute bottom-3 left-3 right-3 text-white text-xs font-bold leading-snug line-clamp-2">
+              Secret entrance to avoid temple crowds
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. ARTICLES FEED -->
+    <section class="py-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">Featured Field Guides &amp; Stories</h2>
+        <span class="text-xs text-slate-400">All articles include long-form video guides</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- Live Article 1 -->
+        <article class="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-lg transition-all flex flex-col group">
+          <div class="relative aspect-16/10 overflow-hidden bg-slate-900">
+            <img src="https://backend.sololandscapes.co/public/uploads/images/thumbnail-bb762e66-3286-4af5-8a30-9235b880f898.webp" alt="Article 1" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            <span class="absolute top-3 left-3 bg-primary-600 text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase">
+              14:25 Vlog Inside
+            </span>
+          </div>
+          <div class="p-5 flex flex-col flex-1 justify-between space-y-3">
+            <div>
+              <span class="text-[11px] text-slate-400">Aug 05, 2026 • 5 min read</span>
+              <h3 class="font-bold text-slate-900 group-hover:text-primary-600 transition-colors mt-1 text-base">
+                Solo vs. Group Adventures: Which One Is Right for You?
+              </h3>
+              <p class="text-xs text-slate-500 mt-2 line-clamp-2">
+                We built this company around the idea that traveling solo shouldn't mean traveling alone...
+              </p>
+            </div>
+            <button onclick="setPageMode('detail')" class="text-primary-600 font-bold text-xs flex items-center gap-1">
+              <span>Read Story &amp; Watch Full Video</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+        </article>
+
+        <!-- Live Article 2 -->
+        <article class="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-lg transition-all flex flex-col group">
+          <div class="relative aspect-16/10 overflow-hidden bg-slate-900">
+            <img src="https://backend.sololandscapes.co/public/uploads/images/thumbnail-60e63acf-73a8-44b8-99cb-bd876782ee96.webp" alt="Article 2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            <span class="absolute top-3 left-3 bg-emerald-600 text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase">
+              08:30 Vlog Inside
+            </span>
+          </div>
+          <div class="p-5 flex flex-col flex-1 justify-between space-y-3">
+            <div>
+              <span class="text-[11px] text-slate-400">Jul 29, 2026 • 5 min read</span>
+              <h3 class="font-bold text-slate-900 group-hover:text-primary-600 transition-colors mt-1 text-base">
+                Cambodia Just Made Wanderlust's Travel Green List 2026
+              </h3>
+              <p class="text-xs text-slate-500 mt-2 line-clamp-2">
+                Cardamom rainforest corridors and community conservation stories...
+              </p>
+            </div>
+            <button onclick="setPageMode('detail')" class="text-primary-600 font-bold text-xs flex items-center gap-1">
+              <span>Read Story &amp; Watch Full Video</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+        </article>
+
+        <!-- Live Article 3 -->
+        <article class="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-lg transition-all flex flex-col group">
+          <div class="relative aspect-16/10 overflow-hidden bg-slate-900">
+            <img src="https://backend.sololandscapes.co/public/uploads/images/thumbnail-aba2daaa-581d-4e07-95e6-10ab74181a27.webp" alt="Article 3" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            <span class="absolute top-3 left-3 bg-amber-600 text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase">
+              11:15 Vlog Inside
+            </span>
+          </div>
+          <div class="p-5 flex flex-col flex-1 justify-between space-y-3">
+            <div>
+              <span class="text-[11px] text-slate-400">Jul 28, 2026 • 5 min read</span>
+              <h3 class="font-bold text-slate-900 group-hover:text-primary-600 transition-colors mt-1 text-base">
+                Chi Phat and the Cardamoms: Original Ecotourism Story
+              </h3>
+              <p class="text-xs text-slate-500 mt-2 line-clamp-2">
+                Former poachers turned conservation guides navigating the jungle riverways...
+              </p>
+            </div>
+            <button onclick="setPageMode('detail')" class="text-primary-600 font-bold text-xs flex items-center gap-1">
+              <span>Read Story &amp; Watch Full Video</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ================================================================= -->
+  <!-- MODAL: 9:16 VERTICAL SHORTS MODAL VIEWER                          -->
+  <!-- ================================================================= -->
+  <div id="short-player-modal" class="fixed inset-0 z-[100] bg-black/90 backdrop-blur-md hidden items-center justify-center p-2">
+    <div class="relative w-full max-w-[380px] h-[85vh] max-h-[700px] aspect-[9/16] bg-black rounded-3xl overflow-hidden border border-white/20 shadow-2xl flex flex-col">
+      <div class="absolute top-4 left-4 right-4 z-20 flex items-center justify-between text-white">
+        <div>
+          <span id="modal-short-author" class="text-xs font-bold block"></span>
+          <span id="modal-short-location" class="text-[10px] text-primary-100 block"></span>
+        </div>
+        <button onclick="closeShortModal()" class="w-8 h-8 rounded-full bg-black/60 hover:bg-black/90 text-white flex items-center justify-center border border-white/20">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <iframe 
+        id="modal-short-iframe"
+        class="w-full h-full object-cover" 
+        src="" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen>
+      </iframe>
+    </div>
+  </div>
+
+  <!-- Global Footer -->
+  <footer class="bg-midnight text-slate-400 py-8 px-4 text-center text-xs mt-auto border-t border-teal-900/60">
+    <p class="font-bold text-white mb-1">SoloLandscapes • Sustainable Travel Experiences in Cambodia</p>
+    <p>Reels on /blogs • 16:9 Long Video on /blogs/[slug]</p>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+
+    // Route toggling for the developer
+    function setPageMode(mode) {
+      const pageDetail = document.getElementById('page-detail');
+      const pageListing = document.getElementById('page-listing');
+      const label = document.getElementById('dev-route-label');
+      const btnDetail = document.getElementById('btn-route-detail');
+      const btnListing = document.getElementById('btn-route-listing');
+
+      if (mode === 'listing') {
+        pageDetail.classList.add('hidden');
+        pageListing.classList.remove('hidden');
+        label.innerText = 'Route: /blogs (Reels & Shorts Shelf)';
+        btnListing.className = 'px-3 py-1 rounded-md text-xs font-semibold bg-primary-500 text-white shadow-sm flex items-center gap-1.5 transition-all';
+        btnDetail.className = 'px-3 py-1 rounded-md text-xs font-medium text-slate-300 hover:text-white flex items-center gap-1.5 transition-all';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        pageListing.classList.add('hidden');
+        pageDetail.classList.remove('hidden');
+        label.innerText = 'Route: /blogs/6a72f375c211742677db1b06';
+        btnDetail.className = 'px-3 py-1 rounded-md text-xs font-semibold bg-primary-500 text-white shadow-sm flex items-center gap-1.5 transition-all';
+        btnListing.className = 'px-3 py-1 rounded-md text-xs font-medium text-slate-300 hover:text-white flex items-center gap-1.5 transition-all';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      lucide.createIcons();
+    }
+
+    // Lazy load the 16:9 Long Video in the Article
+    function mountLongIframe(videoId) {
+      const container = document.getElementById('long-video-container');
+      container.innerHTML = `
+        <iframe 
+          class="w-full h-full absolute inset-0 rounded-2xl" 
+          src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1" 
+          title="SoloLandscapes Vlog" 
+          frameborder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+          allowfullscreen>
+        </iframe>
+      `;
+      container.classList.remove('cursor-pointer', 'group');
+    }
+
+    // Open 9:16 Shorts Modal on /blogs
+    function openShortModal(id, author, loc) {
+      const modal = document.getElementById('short-player-modal');
+      const iframe = document.getElementById('modal-short-iframe');
+      document.getElementById('modal-short-author').innerText = author;
+      document.getElementById('modal-short-location').innerText = loc;
+      iframe.src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`;
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeShortModal() {
+      const modal = document.getElementById('short-player-modal');
+      const iframe = document.getElementById('modal-short-iframe');
+      iframe.src = '';
+      modal.classList.remove('flex');
+      modal.classList.add('hidden');
+    }
+  </script>
+</body>
+</html>

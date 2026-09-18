@@ -471,98 +471,204 @@
       </section>
 
       <!-- ======================================================== -->
-      <!-- 3. MAIN BLOG ARTICLES GRID                               -->
+      <!-- 3. MAIN VLOG-BLOGS GRID (VIDEO-FIRST TRAVEL STORIES)     -->
       <!-- ======================================================== -->
       <section id="articles-grid" class="py-10 sm:py-16 bg-ground">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div class="flex items-center justify-between mb-6">
+          <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-6 sm:mb-8 gap-2">
             <div>
-              <span class="text-xs font-bold uppercase tracking-wider text-brand-600">Stories &amp; Articles</span>
-              <h2 class="text-xl sm:text-2xl font-bold text-slate-900">All Travel Articles</h2>
+              <span class="text-xs font-bold uppercase tracking-wider text-rose-600 flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
+                Video-First Travel Stories
+              </span>
+              <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mt-1">Field Vlogs &amp; Destination Guides</h2>
             </div>
-            <span class="text-xs text-slate-500">4 Stories</span>
+            <p class="text-xs text-slate-500">
+              Watch real field footage with quick travel itineraries
+            </p>
           </div>
 
-          <!-- 4-Col Grid -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+          <!-- 4-Col Video-First Vlog Grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             
-            <article class="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:-translate-y-1 hover:shadow-md transition-all duration-200 group flex flex-col">
-              <div class="relative aspect-16/10 overflow-hidden bg-slate-100">
-                <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500&q=80" alt="Solo vs Group" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+            <!-- VLOG-BLOG 1 -->
+            <article class="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-md transition-all duration-200 group flex flex-col">
+              <!-- Video Facade Container -->
+              <div id="vlog-card-1" class="relative aspect-16/10 overflow-hidden bg-slate-950 cursor-pointer" onclick="playInlineVlog('vlog-card-1', 'J5Ow6NnJWlQ')">
+                <img src="https://img.youtube.com/vi/J5Ow6NnJWlQ/hqdefault.jpg" alt="Solo vs Group" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+                
+                <!-- Duration Badge -->
+                <span class="absolute top-2.5 right-2.5 bg-black/70 backdrop-blur-md text-white text-[10px] font-semibold px-2 py-0.5 rounded-md border border-white/10 flex items-center gap-1">
+                  <i data-lucide="clock" class="w-2.5 h-2.5"></i> 04:15
+                </span>
+
+                <!-- Category Pill -->
+                <span class="absolute top-2.5 left-2.5 bg-rose-600/90 text-white text-[10px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wider">
+                  Vlog
+                </span>
+
+                <!-- Play Button Overlay -->
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <div class="w-11 h-11 rounded-full bg-rose-600 text-white flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                    <i data-lucide="play" class="w-5 h-5 fill-current ml-0.5"></i>
+                  </div>
+                </div>
+
+                <div class="absolute bottom-2 left-3 right-3 text-white text-[11px] font-medium truncate">
+                  ▶ Tap to watch field vlog
+                </div>
               </div>
+
+              <!-- Content / Show Notes -->
               <div class="p-4 sm:p-5 flex flex-col flex-1 justify-between">
                 <div>
                   <h3 class="font-bold text-slate-900 group-hover:text-brand-600 transition-colors line-clamp-2 text-sm leading-snug">
                     Solo vs. Group Adventures: Which One Is Right for You?
                   </h3>
-                  <p class="text-[11px] text-slate-400 mt-1">August 05, 2026 • 5 min read</p>
+                  <p class="text-xs text-slate-500 mt-2 line-clamp-2">
+                    Why solo trips give unparalleled freedom while small group treks ensure trail safety in remote jungles.
+                  </p>
                 </div>
-                <div class="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-brand-600">
-                  <span>Read Article</span>
-                  <div class="w-6 h-6 rounded-full bg-brand-50 flex items-center justify-center text-brand-700 group-hover:bg-brand-600 group-hover:text-white transition-colors">
-                    <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-                  </div>
+                <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-semibold">
+                  <span class="text-slate-400 font-normal text-[11px]">August 05, 2026</span>
+                  <button onclick="playInlineVlog('vlog-card-1', 'J5Ow6NnJWlQ')" class="text-rose-600 hover:text-rose-700 flex items-center gap-1">
+                    <span>Watch Vlog</span>
+                    <i data-lucide="play-circle" class="w-3.5 h-3.5"></i>
+                  </button>
                 </div>
               </div>
             </article>
 
-            <article class="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:-translate-y-1 hover:shadow-md transition-all duration-200 group flex flex-col">
-              <div class="relative aspect-16/10 overflow-hidden bg-slate-100">
-                <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=500&q=80" alt="Green list" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+            <!-- VLOG-BLOG 2 -->
+            <article class="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-md transition-all duration-200 group flex flex-col">
+              <div id="vlog-card-2" class="relative aspect-16/10 overflow-hidden bg-slate-950 cursor-pointer" onclick="playInlineVlog('vlog-card-2', 'JNE1T-Q1TBU')">
+                <img src="https://img.youtube.com/vi/JNE1T-Q1TBU/hqdefault.jpg" alt="Green list" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+                
+                <span class="absolute top-2.5 right-2.5 bg-black/70 backdrop-blur-md text-white text-[10px] font-semibold px-2 py-0.5 rounded-md border border-white/10 flex items-center gap-1">
+                  <i data-lucide="zap" class="w-2.5 h-2.5 text-rose-400"></i> Short
+                </span>
+
+                <span class="absolute top-2.5 left-2.5 bg-emerald-600/90 text-white text-[10px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wider">
+                  Eco Reel
+                </span>
+
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <div class="w-11 h-11 rounded-full bg-rose-600 text-white flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                    <i data-lucide="play" class="w-5 h-5 fill-current ml-0.5"></i>
+                  </div>
+                </div>
+
+                <div class="absolute bottom-2 left-3 right-3 text-white text-[11px] font-medium truncate">
+                  ▶ Tap to watch field vlog
+                </div>
               </div>
+
               <div class="p-4 sm:p-5 flex flex-col flex-1 justify-between">
                 <div>
                   <h3 class="font-bold text-slate-900 group-hover:text-brand-600 transition-colors line-clamp-2 text-sm leading-snug">
                     Cambodia Just Made Wanderlust's Travel Green List 2026
                   </h3>
-                  <p class="text-[11px] text-slate-400 mt-1">July 29, 2026 • 5 min read</p>
+                  <p class="text-xs text-slate-500 mt-2 line-clamp-2">
+                    Walking with forest rangers through protected rainforest corridors in the Cardamom range.
+                  </p>
                 </div>
-                <div class="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-brand-600">
-                  <span>Read Article</span>
-                  <div class="w-6 h-6 rounded-full bg-brand-50 flex items-center justify-center text-brand-700 group-hover:bg-brand-600 group-hover:text-white transition-colors">
-                    <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-                  </div>
+                <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-semibold">
+                  <span class="text-slate-400 font-normal text-[11px]">July 29, 2026</span>
+                  <button onclick="playInlineVlog('vlog-card-2', 'JNE1T-Q1TBU')" class="text-rose-600 hover:text-rose-700 flex items-center gap-1">
+                    <span>Watch Vlog</span>
+                    <i data-lucide="play-circle" class="w-3.5 h-3.5"></i>
+                  </button>
                 </div>
               </div>
             </article>
 
-            <article class="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:-translate-y-1 hover:shadow-md transition-all duration-200 group flex flex-col">
-              <div class="relative aspect-16/10 overflow-hidden bg-slate-100">
-                <img src="https://images.unsplash.com/photo-1448375240586-882707db888b?w=500&q=80" alt="Chi Phat" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+            <!-- VLOG-BLOG 3 -->
+            <article class="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-md transition-all duration-200 group flex flex-col">
+              <div id="vlog-card-3" class="relative aspect-16/10 overflow-hidden bg-slate-950 cursor-pointer" onclick="playInlineVlog('vlog-card-3', 'dQw4w9WgXcQ')">
+                <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg" alt="Chi Phat" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+                
+                <span class="absolute top-2.5 right-2.5 bg-black/70 backdrop-blur-md text-white text-[10px] font-semibold px-2 py-0.5 rounded-md border border-white/10 flex items-center gap-1">
+                  <i data-lucide="clock" class="w-2.5 h-2.5"></i> 03:32
+                </span>
+
+                <span class="absolute top-2.5 left-2.5 bg-cyan-600/90 text-white text-[10px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wider">
+                  Guide Story
+                </span>
+
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <div class="w-11 h-11 rounded-full bg-rose-600 text-white flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                    <i data-lucide="play" class="w-5 h-5 fill-current ml-0.5"></i>
+                  </div>
+                </div>
+
+                <div class="absolute bottom-2 left-3 right-3 text-white text-[11px] font-medium truncate">
+                  ▶ Tap to watch field vlog
+                </div>
               </div>
+
               <div class="p-4 sm:p-5 flex flex-col flex-1 justify-between">
                 <div>
                   <h3 class="font-bold text-slate-900 group-hover:text-brand-600 transition-colors line-clamp-2 text-sm leading-snug">
                     Chi Phat and the Cardamoms: Original Ecotourism Story
                   </h3>
-                  <p class="text-[11px] text-slate-400 mt-1">July 28, 2026 • 5 min read</p>
+                  <p class="text-xs text-slate-500 mt-2 line-clamp-2">
+                    How former wildlife hunters transformed into conservation guides for jungle trekking.
+                  </p>
                 </div>
-                <div class="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-brand-600">
-                  <span>Read Article</span>
-                  <div class="w-6 h-6 rounded-full bg-brand-50 flex items-center justify-center text-brand-700 group-hover:bg-brand-600 group-hover:text-white transition-colors">
-                    <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-                  </div>
+                <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-semibold">
+                  <span class="text-slate-400 font-normal text-[11px]">July 28, 2026</span>
+                  <button onclick="playInlineVlog('vlog-card-3', 'dQw4w9WgXcQ')" class="text-rose-600 hover:text-rose-700 flex items-center gap-1">
+                    <span>Watch Vlog</span>
+                    <i data-lucide="play-circle" class="w-3.5 h-3.5"></i>
+                  </button>
                 </div>
               </div>
             </article>
 
-            <article class="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:-translate-y-1 hover:shadow-md transition-all duration-200 group flex flex-col">
-              <div class="relative aspect-16/10 overflow-hidden bg-slate-100">
+            <!-- VLOG-BLOG 4 -->
+            <article class="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-md transition-all duration-200 group flex flex-col">
+              <div id="vlog-card-4" class="relative aspect-16/10 overflow-hidden bg-slate-950 cursor-pointer" onclick="playInlineVlog('vlog-card-4', 'J5Ow6NnJWlQ')">
                 <img src="https://images.unsplash.com/photo-1544644181-1484b3fdfc62?w=500&q=80" alt="Waterfalls" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+                
+                <span class="absolute top-2.5 right-2.5 bg-black/70 backdrop-blur-md text-white text-[10px] font-semibold px-2 py-0.5 rounded-md border border-white/10 flex items-center gap-1">
+                  <i data-lucide="clock" class="w-2.5 h-2.5"></i> 05:48
+                </span>
+
+                <span class="absolute top-2.5 left-2.5 bg-amber-600/90 text-white text-[10px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wider">
+                  Field Vlog
+                </span>
+
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <div class="w-11 h-11 rounded-full bg-rose-600 text-white flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                    <i data-lucide="play" class="w-5 h-5 fill-current ml-0.5"></i>
+                  </div>
+                </div>
+
+                <div class="absolute bottom-2 left-3 right-3 text-white text-[11px] font-medium truncate">
+                  ▶ Tap to watch field vlog
+                </div>
               </div>
+
               <div class="p-4 sm:p-5 flex flex-col flex-1 justify-between">
                 <div>
                   <h3 class="font-bold text-slate-900 group-hover:text-brand-600 transition-colors line-clamp-2 text-sm leading-snug">
                     Best Waterfalls Near Phnom Penh to Visit This Green Season
                   </h3>
-                  <p class="text-[11px] text-slate-400 mt-1">July 27, 2026 • 5 min read</p>
+                  <p class="text-xs text-slate-500 mt-2 line-clamp-2">
+                    Scouting secluded waterfall pools and muddy off-road routes within 2 hours of the city.
+                  </p>
                 </div>
-                <div class="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-brand-600">
-                  <span>Read Article</span>
-                  <div class="w-6 h-6 rounded-full bg-brand-50 flex items-center justify-center text-brand-700 group-hover:bg-brand-600 group-hover:text-white transition-colors">
-                    <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-                  </div>
+                <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-semibold">
+                  <span class="text-slate-400 font-normal text-[11px]">July 27, 2026</span>
+                  <button onclick="playInlineVlog('vlog-card-4', 'J5Ow6NnJWlQ')" class="text-rose-600 hover:text-rose-700 flex items-center gap-1">
+                    <span>Watch Vlog</span>
+                    <i data-lucide="play-circle" class="w-3.5 h-3.5"></i>
+                  </button>
                 </div>
               </div>
             </article>
@@ -589,8 +695,8 @@
           <span class="text-[10px] text-brand-700">Vlogs</span>
         </a>
         <a href="#articles-grid" class="flex flex-col items-center gap-0.5 text-slate-400 hover:text-brand-600">
-          <i data-lucide="book-open" class="w-4 h-4"></i>
-          <span class="text-[10px]">Articles</span>
+          <i data-lucide="video" class="w-4 h-4"></i>
+          <span class="text-[10px]">Vlog Series</span>
         </a>
         <a href="#" class="flex flex-col items-center gap-0.5 text-slate-400 hover:text-brand-600">
           <i data-lucide="compass" class="w-4 h-4"></i>
@@ -602,138 +708,46 @@
   </div>
 
   <!-- ======================================================== -->
-  <!-- 4. FULL FACEBOOK STORY VIEWER EXPERIENCE (POPUP)         -->
+  <!-- 4. CLEAN & SIMPLE VIDEO VIEWER LIGHTBOX (VIEWING ONLY)   -->
   <!-- ======================================================== -->
   <div 
     id="story-modal" 
-    class="fixed inset-0 z-[200] bg-black/95 backdrop-blur-md hidden items-center justify-center p-0 sm:p-4 opacity-0 transition-opacity duration-200 select-none"
+    onclick="if(event.target === this) closeStoryModal()"
+    class="fixed inset-0 z-[200] bg-black/90 backdrop-blur-md hidden items-center justify-center p-3 sm:p-6 opacity-0 transition-opacity duration-200 select-none"
   >
-    <!-- YouTube Shorts Vertical Frame (9:16) -->
-    <div id="story-frame" class="relative w-full max-w-[390px] h-full sm:h-[88vh] sm:max-h-[760px] aspect-[9/16] bg-black sm:rounded-3xl overflow-hidden shadow-2xl flex flex-col border sm:border-white/15">
+    <!-- Simple, Clean Video Frame (Aspect 9:16 for Shorts) -->
+    <div class="relative w-full max-w-[390px] aspect-[9/16] max-h-[85vh] bg-black rounded-3xl overflow-hidden shadow-2xl border border-white/10 flex flex-col">
       
-      <!-- Top Segmented Progress Bars -->
-      <div id="story-progress-bars" class="absolute top-2.5 left-3 right-3 z-30 flex items-center gap-1.5 pointer-events-none">
-        <!-- Injected via JavaScript dynamically -->
-      </div>
-
-      <!-- Top Story Header -->
-      <div class="absolute top-6 left-3 right-3 z-30 flex items-center justify-between text-white">
-        <div class="flex items-center gap-2.5">
-          <img id="modal-guide-avatar" src="" alt="Author" class="w-9 h-9 rounded-full object-cover border-2 border-white shadow">
-          <div>
-            <div class="flex items-center gap-1.5">
-              <span id="modal-guide-name" class="font-bold text-xs tracking-tight drop-shadow"></span>
-              <span class="text-[10px] text-white/70">• <span id="modal-guide-time">2h ago</span></span>
-            </div>
-            <p id="modal-guide-loc" class="text-[10px] text-brand-300 font-medium flex items-center gap-1"></p>
-          </div>
-        </div>
-
-        <div class="flex items-center gap-1.5">
-          <!-- Open in YouTube link button -->
-          <a 
-            id="modal-yt-link" 
-            href="#" 
-            target="_blank" 
-            class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-black/60 hover:bg-black/90 active:scale-95 flex items-center justify-center text-white transition-all border border-white/20 cursor-pointer z-40"
-            title="Open in YouTube App / Tab"
-          >
-            <i data-lucide="external-link" class="w-4 h-4 text-rose-400"></i>
-          </a>
-
-          <!-- Native Fullscreen Toggle button -->
-          <button 
-            onclick="toggleStoryFullscreen()" 
-            class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-black/60 hover:bg-black/90 active:scale-95 flex items-center justify-center text-white transition-all border border-white/20 cursor-pointer z-40"
-            title="Toggle Fullscreen Mode"
-          >
-            <i id="fs-icon" data-lucide="maximize" class="w-4 h-4"></i>
-          </button>
-
-          <!-- Close Modal button -->
-          <button 
-            onclick="closeStoryModal()" 
-            class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-black/60 hover:bg-black/90 active:scale-95 flex items-center justify-center text-white transition-all border border-white/20 cursor-pointer z-40"
-            title="Close"
-          >
-            <i data-lucide="x" class="w-4 h-4"></i>
-          </button>
-        </div>
-      </div>
-
-      <!-- Mobile Swipe Up/Down Indicator Badge -->
-      <div class="sm:hidden absolute top-16 right-3 z-30 bg-black/50 backdrop-blur-md px-2.5 py-0.5 rounded-full text-[10px] text-white/80 border border-white/15 flex items-center gap-1 pointer-events-none">
-        <i data-lucide="arrow-up-down" class="w-3 h-3 text-rose-400"></i>
-        <span>Swipe Up/Down</span>
-      </div>
-
-      <!-- YouTube Short Iframe -->
-      <div id="video-container" class="w-full h-full relative z-10 transition-transform duration-300">
-        <iframe 
-          id="modal-iframe" 
-          class="w-full h-full object-cover" 
-          src="" 
-          title="SoloLandscapes Vlog Story" 
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen *" 
-          allowfullscreen
-          webkitallowfullscreen
-          mozallowfullscreen
-        ></iframe>
-        <!-- Transparent swipe overlay: captures touch/wheel gestures that the iframe would otherwise swallow -->
-        <div id="swipe-overlay" class="absolute inset-0 z-20" style="touch-action: pan-y;"></div>
-      </div>
-
-      <!-- Bottom Facebook-style Quick Action / Reply Bar -->
-      <div class="absolute bottom-1.5 left-2 right-14 p-1.5 z-30 pointer-events-none flex items-center gap-2">
-        <div class="flex-1 bg-black/60 backdrop-blur-md rounded-full px-3 py-1.5 border border-white/20 text-white text-xs flex items-center justify-between pointer-events-auto shadow-md">
-          <span class="text-white/70 text-[11px]">Send a message...</span>
-          <i data-lucide="send" class="w-3 h-3 text-white/60"></i>
-        </div>
-        <button class="w-8 h-8 rounded-full bg-brand-600 text-white flex items-center justify-center shadow-lg hover:scale-105 transition-transform cursor-pointer pointer-events-auto shrink-0" title="Book this experience">
-          <i data-lucide="compass" class="w-3.5 h-3.5"></i>
-        </button>
-        <button class="w-8 h-8 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white flex items-center justify-center hover:text-rose-400 transition-colors cursor-pointer pointer-events-auto shrink-0" title="Like">
-          <i data-lucide="heart" class="w-3.5 h-3.5 fill-current"></i>
+      <!-- Minimalist Top Bar: External link + Close button -->
+      <div class="absolute top-3 right-3 z-30 flex items-center gap-2">
+        <a 
+          id="modal-yt-link" 
+          href="#" 
+          target="_blank" 
+          class="w-8 h-8 rounded-full bg-black/60 hover:bg-black/90 text-white flex items-center justify-center border border-white/20 transition-all"
+          title="Open in YouTube"
+        >
+          <i data-lucide="external-link" class="w-3.5 h-3.5 text-rose-400"></i>
+        </a>
+        <button 
+          onclick="closeStoryModal()" 
+          class="w-8 h-8 rounded-full bg-black/60 hover:bg-black/90 text-white flex items-center justify-center border border-white/20 transition-all cursor-pointer"
+          title="Close Video"
+        >
+          <i data-lucide="x" class="w-4 h-4"></i>
         </button>
       </div>
 
-    </div>
+      <!-- Pure YouTube Player (No overlays blocking controls, 100% functional) -->
+      <iframe 
+        id="modal-iframe" 
+        class="w-full h-full object-cover" 
+        src="" 
+        title="SoloLandscapes Video" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+        allowfullscreen
+      ></iframe>
 
-    <!-- YouTube Shorts Vertical Action Bar (Desktop Side Controls) -->
-    <div class="hidden sm:flex flex-col items-center gap-3.5 ml-4 z-30 select-none">
-      <!-- Scroll Up / Previous Short -->
-      <button 
-        onclick="prevStory()" 
-        class="w-12 h-12 rounded-full bg-white/10 hover:bg-white/25 text-white flex items-center justify-center transition-all border border-white/20 hover:scale-110 shadow-2xl cursor-pointer"
-        title="Previous Short (Scroll Up / Arrow Up)"
-      >
-        <i data-lucide="chevron-up" class="w-6 h-6"></i>
-      </button>
-
-      <!-- Counter Badge -->
-      <div id="short-counter" class="text-xs font-bold text-white bg-black/60 px-3 py-1.5 rounded-full border border-white/20 shadow">
-        1 / 5
-      </div>
-
-      <!-- Scroll Down / Next Short -->
-      <button 
-        onclick="nextStory()" 
-        class="w-12 h-12 rounded-full bg-white/10 hover:bg-white/25 text-white flex items-center justify-center transition-all border border-white/20 hover:scale-110 shadow-2xl cursor-pointer"
-        title="Next Short (Scroll Down / Arrow Down)"
-      >
-        <i data-lucide="chevron-down" class="w-6 h-6"></i>
-      </button>
-
-      <div class="h-px w-8 bg-white/20 my-1"></div>
-
-      <!-- Quick Share Button -->
-      <button 
-        onclick="navigator.clipboard?.writeText(window.location.href); alert('Short link copied!');" 
-        class="w-10 h-10 rounded-full bg-black/50 hover:bg-black/80 text-white flex items-center justify-center border border-white/20 transition-all cursor-pointer"
-        title="Share Short"
-      >
-        <i data-lucide="share-2" class="w-4 h-4"></i>
-      </button>
     </div>
   </div>
 
@@ -854,31 +868,10 @@
     function renderStory() {
       const story = STORIES[currentStoryIndex];
       const iframe = document.getElementById('modal-iframe');
-      const avatarEl = document.getElementById('modal-guide-avatar');
-      const nameEl = document.getElementById('modal-guide-name');
-      const timeEl = document.getElementById('modal-guide-time');
-      const locEl = document.getElementById('modal-guide-loc');
-      const progressBarsContainer = document.getElementById('story-progress-bars');
+      if (!iframe) return;
 
-      // Update Header info
-      avatarEl.src = story.avatar;
-      nameEl.innerText = story.author;
-      timeEl.innerText = story.time;
-      locEl.innerHTML = `<i data-lucide="map-pin" class="w-3 h-3 text-brand-300"></i> ${story.location}`;
-
-      // Update segmented progress bars (Facebook style)
-      progressBarsContainer.innerHTML = STORIES.map((_, i) => {
-        let barClass = "bg-white/30";
-        if (i < currentStoryIndex) {
-          barClass = "bg-white"; // already watched
-        } else if (i === currentStoryIndex) {
-          barClass = "bg-white animate-pulse"; // currently playing
-        }
-        return `<div class="h-1 flex-1 rounded-full ${barClass} transition-all duration-300"></div>`;
-      }).join('');
-
-      // Mount YouTube player with fs=1 (allow fullscreen) and controls enabled
-      iframe.src = `https://www.youtube.com/embed/${story.youtubeId}?autoplay=1&playsinline=1&modestbranding=1&rel=0&fs=1&enablejsapi=1`;
+      // Clean YouTube player with controls enabled and autoplay
+      iframe.src = `https://www.youtube.com/embed/${story.youtubeId}?autoplay=1&playsinline=1&modestbranding=1&rel=0`;
 
       // Update external YouTube Shorts link
       const ytLink = document.getElementById('modal-yt-link');
@@ -886,13 +879,26 @@
         ytLink.href = `https://www.youtube.com/shorts/${story.youtubeId}`;
       }
 
-      // Update short counter badge
-      const counterEl = document.getElementById('short-counter');
-      if (counterEl) {
-        counterEl.innerText = `${currentStoryIndex + 1} / ${STORIES.length}`;
-      }
-
       lucide.createIcons();
+    }
+
+    // Play YouTube video inline inside the Vlog-Blog cards
+    function playInlineVlog(cardId, videoId) {
+      const card = document.getElementById(cardId);
+      if (!card) return;
+
+      card.innerHTML = `
+        <iframe 
+          class="w-full h-full absolute inset-0 rounded-t-2xl" 
+          src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1" 
+          title="SoloLandscapes Vlog" 
+          frameborder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+          allowfullscreen>
+        </iframe>
+      `;
+      card.onclick = null;
+      card.classList.remove('cursor-pointer', 'group');
     }
 
     // Toggle HTML5 native fullscreen on the story frame
@@ -989,96 +995,7 @@
       }, 200);
     }
 
-    // ── Swipe overlay: catches touch/wheel events that the iframe would swallow ──
-    const swipeOverlay = document.getElementById('swipe-overlay');
-    const storyModal = document.getElementById('story-modal');
 
-    // Mouse Wheel Scroll on the overlay (Scroll UP or DOWN to change short)
-    let isWheelThrottled = false;
-    swipeOverlay.addEventListener('wheel', (e) => {
-      if (storyModal.classList.contains('hidden')) return;
-      if (isWheelThrottled) return;
-      e.preventDefault();
-
-      if (e.deltaY > 25) {
-        isWheelThrottled = true;
-        nextStory();
-        setTimeout(() => { isWheelThrottled = false; }, 380);
-      } else if (e.deltaY < -25) {
-        isWheelThrottled = true;
-        prevStory();
-        setTimeout(() => { isWheelThrottled = false; }, 380);
-      }
-    }, { passive: false });
-
-    // Also keep wheel on the modal backdrop (outside the iframe area)
-    storyModal.addEventListener('wheel', (e) => {
-      if (storyModal.classList.contains('hidden')) return;
-      if (isWheelThrottled) return;
-
-      if (e.deltaY > 25) {
-        isWheelThrottled = true;
-        nextStory();
-        setTimeout(() => { isWheelThrottled = false; }, 380);
-      } else if (e.deltaY < -25) {
-        isWheelThrottled = true;
-        prevStory();
-        setTimeout(() => { isWheelThrottled = false; }, 380);
-      }
-    }, { passive: true });
-
-    // Touch Swipe on the overlay (Swipe UP or DOWN on mobile to change short)
-    let touchStartY = 0;
-    let touchStartX = 0;
-    let isSwiping = false;
-    let swipeHandled = false;
-
-    swipeOverlay.addEventListener('touchstart', (e) => {
-      if (e.touches.length > 0) {
-        touchStartY = e.touches[0].clientY;
-        touchStartX = e.touches[0].clientX;
-        isSwiping = false;
-        swipeHandled = false;
-      }
-    }, { passive: true });
-
-    swipeOverlay.addEventListener('touchmove', (e) => {
-      if (swipeHandled || e.touches.length === 0) return;
-      const currentY = e.touches[0].clientY;
-      const currentX = e.touches[0].clientX;
-      const diffY = touchStartY - currentY;
-      const diffX = Math.abs(touchStartX - currentX);
-
-      // Only treat as vertical swipe if vertical movement > horizontal
-      if (Math.abs(diffY) > 30 && Math.abs(diffY) > diffX) {
-        isSwiping = true;
-        e.preventDefault(); // prevent page scroll while swiping between stories
-      }
-    }, { passive: false });
-
-    swipeOverlay.addEventListener('touchend', (e) => {
-      if (storyModal.classList.contains('hidden')) return;
-      if (swipeHandled) return;
-
-      if (e.changedTouches.length > 0) {
-        const touchEndY = e.changedTouches[0].clientY;
-        const touchEndX = e.changedTouches[0].clientX;
-        const diffY = touchStartY - touchEndY;
-        const diffX = Math.abs(touchStartX - touchEndX);
-
-        // Vertical swipe with enough distance and more vertical than horizontal
-        if (Math.abs(diffY) > 45 && Math.abs(diffY) > diffX) {
-          swipeHandled = true;
-          if (diffY > 0) {
-            // Swiped UP -> Next Short
-            nextStory();
-          } else {
-            // Swiped DOWN -> Previous Short
-            prevStory();
-          }
-        }
-      }
-    }, { passive: true });
 
     // Keyboard navigation (ArrowDown / ArrowUp / PageDown / PageUp / Escape)
     document.addEventListener('keydown', (e) => {
