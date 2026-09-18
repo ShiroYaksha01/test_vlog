@@ -713,32 +713,39 @@
   <div 
     id="story-modal" 
     onclick="if(event.target === this) closeStoryModal()"
-    class="fixed inset-0 z-[200] bg-black/90 backdrop-blur-md hidden items-center justify-center p-3 sm:p-6 opacity-0 transition-opacity duration-200 select-none"
+    class="fixed inset-0 z-[200] bg-black/95 backdrop-blur-md hidden flex-col items-center justify-center p-3 sm:p-4 opacity-0 transition-opacity duration-200 select-none"
   >
-    <!-- Simple, Clean Video Frame (Aspect 9:16 for Shorts) -->
-    <div class="relative w-full max-w-[390px] aspect-[9/16] max-h-[85vh] bg-black rounded-3xl overflow-hidden shadow-2xl border border-white/10 flex flex-col">
-      
-      <!-- Minimalist Top Bar: External link + Close button -->
-      <div class="absolute top-3 right-3 z-30 flex items-center gap-2">
+    <!-- Top Header Bar: Placed OUTSIDE & ABOVE the video so it never touches YouTube controls -->
+    <div class="w-full max-w-[400px] flex items-center justify-between px-1 py-1.5 text-white z-30 mb-1.5 shrink-0">
+      <div class="flex items-center gap-2 text-xs font-semibold text-slate-300">
+        <span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
+        <span id="modal-video-counter" class="text-white/90 font-mono text-xs font-bold">1 / 5</span>
+        <span class="text-white/40 text-[11px] hidden sm:inline">• Scroll or tap arrows for next</span>
+      </div>
+
+      <div class="flex items-center gap-2">
         <a 
           id="modal-yt-link" 
           href="#" 
           target="_blank" 
-          class="w-8 h-8 rounded-full bg-black/60 hover:bg-black/90 text-white flex items-center justify-center border border-white/20 transition-all"
+          class="h-8 px-3 rounded-full bg-white/10 hover:bg-white/20 active:scale-95 text-white flex items-center gap-1.5 text-xs font-medium border border-white/15 transition-all"
           title="Open in YouTube"
         >
           <i data-lucide="external-link" class="w-3.5 h-3.5 text-rose-400"></i>
+          <span class="text-[11px] hidden sm:inline">YouTube</span>
         </a>
         <button 
           onclick="closeStoryModal()" 
-          class="w-8 h-8 rounded-full bg-black/60 hover:bg-black/90 text-white flex items-center justify-center border border-white/20 transition-all cursor-pointer"
-          title="Close Video"
+          class="w-8 h-8 rounded-full bg-white/15 hover:bg-white/25 active:scale-95 text-white flex items-center justify-center border border-white/20 transition-all cursor-pointer shadow"
+          title="Close Video (Esc)"
         >
           <i data-lucide="x" class="w-4 h-4"></i>
         </button>
       </div>
+    </div>
 
-      <!-- Pure YouTube Player (No overlays blocking controls, 100% functional) -->
+    <!-- Main Video Frame: 100% UNTOUCHED, ZERO OVERLAYS INSIDE -->
+    <div id="modal-frame-box" class="relative w-full max-w-[400px] aspect-[9/16] max-h-[calc(100vh-140px)] sm:max-h-[720px] bg-black rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-white/10 shrink-0 transition-transform duration-200">
       <iframe 
         id="modal-iframe" 
         class="w-full h-full object-cover" 
@@ -747,8 +754,33 @@
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
         allowfullscreen
       ></iframe>
-
     </div>
+
+    <!-- Bottom Up/Down Scroll Navigation Bar: Easy thumb navigation on mobile and desktop -->
+    <div class="w-full max-w-[400px] flex items-center justify-between px-2 pt-2.5 z-30 shrink-0">
+      <button 
+        onclick="prevStory()" 
+        class="h-8 px-4 rounded-full bg-white/10 hover:bg-white/20 active:scale-95 text-white flex items-center gap-1.5 text-xs font-semibold border border-white/15 transition-all cursor-pointer shadow"
+        title="Previous Video (Up Arrow / Swipe Down)"
+      >
+        <i data-lucide="chevron-up" class="w-4 h-4"></i>
+        <span>Previous</span>
+      </button>
+
+      <span class="text-[11px] text-white/50 hidden sm:inline">
+        ↑ / ↓ keys or wheel to navigate
+      </span>
+
+      <button 
+        onclick="nextStory()" 
+        class="h-8 px-4 rounded-full bg-rose-600 hover:bg-rose-700 active:scale-95 text-white flex items-center gap-1.5 text-xs font-semibold shadow-lg shadow-rose-600/30 transition-all cursor-pointer"
+        title="Next Video (Down Arrow / Swipe Up)"
+      >
+        <span>Next Video</span>
+        <i data-lucide="chevron-down" class="w-4 h-4"></i>
+      </button>
+    </div>
+
   </div>
 
   <!-- ======================================================== -->
@@ -879,6 +911,12 @@
         ytLink.href = `https://www.youtube.com/shorts/${story.youtubeId}`;
       }
 
+      // Update counter badge
+      const counterEl = document.getElementById('modal-video-counter');
+      if (counterEl) {
+        counterEl.innerText = `${currentStoryIndex + 1} / ${STORIES.length}`;
+      }
+
       lucide.createIcons();
     }
 
@@ -901,54 +939,13 @@
       card.classList.remove('cursor-pointer', 'group');
     }
 
-    // Toggle HTML5 native fullscreen on the story frame
-    function toggleStoryFullscreen() {
-      const frame = document.getElementById('story-frame') || document.getElementById('story-modal');
-      const fsIcon = document.getElementById('fs-icon');
-
-      if (!document.fullscreenElement && !document.webkitFullscreenElement) {
-        if (frame.requestFullscreen) {
-          frame.requestFullscreen();
-        } else if (frame.webkitRequestFullscreen) {
-          frame.webkitRequestFullscreen();
-        } else if (frame.msRequestFullscreen) {
-          frame.msRequestFullscreen();
-        }
-        if (fsIcon) {
-          fsIcon.setAttribute('data-lucide', 'minimize');
-          lucide.createIcons();
-        }
-      } else {
-        if (document.exitFullscreen) {
-          document.exitFullscreen();
-        } else if (document.webkitExitFullscreen) {
-          document.webkitExitFullscreen();
-        }
-        if (fsIcon) {
-          fsIcon.setAttribute('data-lucide', 'maximize');
-          lucide.createIcons();
-        }
-      }
-    }
-
-    document.addEventListener('fullscreenchange', () => {
-      const fsIcon = document.getElementById('fs-icon');
-      if (!fsIcon) return;
-      if (document.fullscreenElement) {
-        fsIcon.setAttribute('data-lucide', 'minimize');
-      } else {
-        fsIcon.setAttribute('data-lucide', 'maximize');
-      }
-      lucide.createIcons();
-    });
-
     function nextStory() {
       if (currentStoryIndex < STORIES.length - 1) {
         animateVerticalTransition('down');
         currentStoryIndex++;
         renderStory();
       } else {
-        // Loop back to start like TikTok/Shorts
+        // Loop back to start
         animateVerticalTransition('down');
         currentStoryIndex = 0;
         renderStory();
@@ -970,10 +967,10 @@
 
     // Subtle slide transition animation
     function animateVerticalTransition(direction) {
-      const container = document.getElementById('video-container');
+      const container = document.getElementById('modal-frame-box');
       if (!container) return;
-      container.style.transform = direction === 'down' ? 'translateY(16px)' : 'translateY(-16px)';
-      container.style.opacity = '0.6';
+      container.style.transform = direction === 'down' ? 'translateY(14px)' : 'translateY(-14px)';
+      container.style.opacity = '0.7';
       setTimeout(() => {
         container.style.transform = 'translateY(0)';
         container.style.opacity = '1';
@@ -995,7 +992,44 @@
       }, 200);
     }
 
+    // Mouse Wheel Scroll to navigate between videos
+    let isWheelThrottled = false;
+    document.getElementById('story-modal').addEventListener('wheel', (e) => {
+      const modal = document.getElementById('story-modal');
+      if (modal.classList.contains('hidden')) return;
+      if (isWheelThrottled) return;
 
+      if (e.deltaY > 20) {
+        isWheelThrottled = true;
+        nextStory();
+        setTimeout(() => { isWheelThrottled = false; }, 380);
+      } else if (e.deltaY < -20) {
+        isWheelThrottled = true;
+        prevStory();
+        setTimeout(() => { isWheelThrottled = false; }, 380);
+      }
+    }, { passive: true });
+
+    // Touch Swipe on modal backdrop / bars to navigate between videos
+    let touchStartY = 0;
+    const modalEl = document.getElementById('story-modal');
+    modalEl.addEventListener('touchstart', (e) => {
+      if (e.target.tagName === 'IFRAME') return;
+      if (e.touches.length > 0) {
+        touchStartY = e.touches[0].clientY;
+      }
+    }, { passive: true });
+
+    modalEl.addEventListener('touchend', (e) => {
+      if (e.target.tagName === 'IFRAME') return;
+      if (e.changedTouches.length > 0) {
+        const diff = touchStartY - e.changedTouches[0].clientY;
+        if (Math.abs(diff) > 40) {
+          if (diff > 0) nextStory();
+          else prevStory();
+        }
+      }
+    }, { passive: true });
 
     // Keyboard navigation (ArrowDown / ArrowUp / PageDown / PageUp / Escape)
     document.addEventListener('keydown', (e) => {
