@@ -98,22 +98,33 @@
 <body class="bg-slate-100 text-slate-800 font-sans antialiased min-h-screen">
 
   <!-- ======================================================== -->
-  <!-- DEMO TOOLBAR: Switch View Modes                          -->
+  <!-- DEMO TOOLBAR: Switch View Modes & Pages                   -->
   <!-- ======================================================== -->
-  <header class="bg-slate-900 text-white sticky top-0 z-[100] border-b border-slate-800 px-4 py-2.5">
-    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3 text-xs sm:text-sm">
-      <div class="flex items-center gap-2">
+  <header class="bg-slate-950 text-white sticky top-0 z-[100] border-b border-slate-800 px-4 py-2">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3 text-xs">
+      <div class="flex items-center gap-3">
         <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-brand-600 text-white font-black text-xs">SL</span>
-        <span class="font-semibold tracking-wide">Facebook Story Layout Prototype for Vlogs</span>
+        <span class="font-bold tracking-tight text-white font-poppins">SoloLandscapes Specification:</span>
+        <div class="inline-flex items-center bg-slate-900 rounded-lg p-0.5 border border-slate-800">
+          <a href="/index.html" class="px-3 py-1 rounded-md font-bold bg-brand-600 text-white shadow-xs flex items-center gap-1.5 transition-all">
+            <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i> /blogs (Shorts Above Hero)
+          </a>
+          <a href="/admin_dashboard_shorts.html" class="px-3 py-1 rounded-md font-medium text-emerald-400 hover:text-white hover:bg-slate-800 flex items-center gap-1.5 transition-all">
+            <i data-lucide="layout-dashboard" class="w-3.5 h-3.5 text-emerald-400"></i> Admin Dashboard (CMS)
+          </a>
+          <a href="/sololandscapes_live_implementation.html" class="px-3 py-1 rounded-md font-medium text-slate-300 hover:text-white hover:bg-slate-800 flex items-center gap-1.5 transition-all">
+            <i data-lucide="file-text" class="w-3.5 h-3.5"></i> Detail Page (16:9 Video)
+          </a>
+        </div>
       </div>
       
       <div class="flex items-center gap-2">
-        <span class="text-slate-400 hidden sm:inline">View Mode:</span>
-        <div class="bg-slate-800 p-0.5 rounded-lg inline-flex border border-slate-700">
-          <button id="btn-full" onclick="setViewMode('full')" class="px-3 py-1 rounded-md text-xs font-medium transition-all bg-brand-600 text-white shadow-sm flex items-center gap-1.5">
-            <i data-lucide="monitor" class="w-3.5 h-3.5"></i> Full Website
+        <span class="text-slate-400 hidden sm:inline">Device:</span>
+        <div class="bg-slate-900 p-0.5 rounded-lg inline-flex border border-slate-800">
+          <button id="btn-full" onclick="setViewMode('full')" class="px-2.5 py-1 rounded-md text-xs font-medium transition-all bg-brand-600 text-white shadow-sm flex items-center gap-1.5">
+            <i data-lucide="monitor" class="w-3.5 h-3.5"></i> Desktop
           </button>
-          <button id="btn-mobile" onclick="setViewMode('mobile')" class="px-3 py-1 rounded-md text-xs font-medium transition-all text-slate-300 hover:text-white flex items-center gap-1.5">
+          <button id="btn-mobile" onclick="setViewMode('mobile')" class="px-2.5 py-1 rounded-md text-xs font-medium transition-all text-slate-400 hover:text-white flex items-center gap-1.5">
             <i data-lucide="smartphone" class="w-3.5 h-3.5"></i> Mobile Phone (390px)
           </button>
         </div>
@@ -167,12 +178,9 @@
                 <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-rose-600"></span>
               </span>
               <h2 class="text-base sm:text-lg font-black tracking-tight text-slate-900 flex items-center gap-2">
-                Field Vlogs &amp; Stories
+                Vlogs
                 <span class="text-[11px] font-semibold text-rose-600 bg-rose-50 border border-rose-200 px-2 py-0.5 rounded-full uppercase tracking-wider">Live Clips</span>
               </h2>
-              <span class="text-xs text-slate-400 font-normal hidden sm:inline">
-                (Swipe or scroll &rarr;)
-              </span>
             </div>
 
             <!-- Desktop Arrow Controls -->
@@ -430,17 +438,20 @@
             
             <div class="lg:col-span-7 space-y-3 sm:space-y-4">
               <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-50 border border-brand-100 text-brand-700 text-xs font-semibold uppercase tracking-wider">
-                <span>🎥</span> SoloLandscapes Vlogs &amp; Journeys
+                <span>📚</span> SoloLandscapes Travel Journal
               </div>
               <h1 class="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
-                Watch Cambodia Through <span class="text-brand-600">Local Eyes</span>
+                Explore Our Travel Stories &amp; <span class="text-brand-600">Insights</span>
               </h1>
               <p class="text-slate-600 text-xs sm:text-base leading-relaxed max-w-xl">
-                Explore our raw travel vlogs, guide diaries, and eco-tourism stories recorded in the field across Cambodia.
+                Discover inspiring journeys, insider tips, and unforgettable experiences curated by our expert guides on location.
               </p>
-              <div class="pt-1 flex items-center gap-3 text-xs font-semibold text-slate-700">
-                <span class="flex items-center gap-1.5"><i data-lucide="check-circle" class="w-4 h-4 text-brand-600"></i> High Resolution Shorts</span>
-                <span class="flex items-center gap-1.5"><i data-lucide="check-circle" class="w-4 h-4 text-brand-600"></i> Field Guides</span>
+              <!-- Category pills matching sololandscapes.co/blogs -->
+              <div class="pt-2 flex flex-wrap items-center gap-2">
+                <span class="bg-brand-600 text-white px-3 py-1 rounded-full text-xs font-semibold">All Stories</span>
+                <span class="bg-white border border-slate-200 hover:border-slate-300 text-slate-700 px-3 py-1 rounded-full text-xs font-medium cursor-pointer transition-colors">Hiking</span>
+                <span class="bg-white border border-slate-200 hover:border-slate-300 text-slate-700 px-3 py-1 rounded-full text-xs font-medium cursor-pointer transition-colors">Destinations</span>
+                <span class="bg-white border border-slate-200 hover:border-slate-300 text-slate-700 px-3 py-1 rounded-full text-xs font-medium cursor-pointer transition-colors">Solo Tips</span>
               </div>
             </div>
 
