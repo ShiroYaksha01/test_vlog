@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SoloLandscapes — Facebook Story Style Vlogs & Blogs</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0f9f8',
+              100: '#dcf0ee',
+              500: '#147474',
+              600: '#0a4a4a',
+              700: '#073636',
+              800: '#062929',
+              accent: '#f59e0b'
+            },
+            surface: '#ffffff',
+            ground: '#f6f8f7',
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          aspectRatio: {
+            '9/16': '9 / 16',
+            '16/10': '16 / 10',
+          }
+        }
+      }
+    }
+  </script>
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* Clean horizontal scroll without visible scrollbar */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .mobile-device-frame {
+      max-width: 390px;
+      margin: 16px auto;
+      border: 10px solid #1f2937;
+      border-radius: 40px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+      overflow-y: scroll;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+      max-height: calc(100vh - 80px);
+      background: #f6f8f7;
+      position: relative;
+    }
+    .mobile-device-frame::-webkit-scrollbar {
+      width: 4px;
+    }
+    .mobile-device-frame::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .mobile-device-frame::-webkit-scrollbar-thumb {
+      background: rgba(0,0,0,0.2);
+      border-radius: 4px;
+    }
+    .mobile-device-frame * {
+      touch-action: pan-y;
+    }
+    /* Facebook Story Ring Gradient */
+    .story-ring {
+      background: linear-gradient(45deg, #0a4a4a, #10b981, #06b6d4);
+      padding: 2.5px;
+    }
+    #story-frame:fullscreen,
+    #story-frame:-webkit-full-screen {
+      max-width: 100vw !important;
+      max-height: 100vh !important;
+      width: 100% !important;
+      height: 100% !important;
+      border-radius: 0 !important;
+      border: none !important;
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans antialiased min-h-screen">
+
+  <!-- ======================================================== -->
+  <!-- DEMO TOOLBAR: Switch View Modes                          -->
+  <!-- ======================================================== -->
+  <header class="bg-slate-900 text-white sticky top-0 z-[100] border-b border-slate-800 px-4 py-2.5">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3 text-xs sm:text-sm">
+      <div class="flex items-center gap-2">
+        <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-brand-600 text-white font-black text-xs">SL</span>
+        <span class="font-semibold tracking-wide">Facebook Story Layout Prototype for Vlogs</span>
+      </div>
+      
+      <div class="flex items-center gap-2">
+        <span class="text-slate-400 hidden sm:inline">View Mode:</span>
+        <div class="bg-slate-800 p-0.5 rounded-lg inline-flex border border-slate-700">
+          <button id="btn-full" onclick="setViewMode('full')" class="px-3 py-1 rounded-md text-xs font-medium transition-all bg-brand-600 text-white shadow-sm flex items-center gap-1.5">
+            <i data-lucide="monitor" class="w-3.5 h-3.5"></i> Full Website
+          </button>
+          <button id="btn-mobile" onclick="setViewMode('mobile')" class="px-3 py-1 rounded-md text-xs font-medium transition-all text-slate-300 hover:text-white flex items-center gap-1.5">
+            <i data-lucide="smartphone" class="w-3.5 h-3.5"></i> Mobile Phone (390px)
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ======================================================== -->
+  <!-- MAIN PREVIEW WRAPPER                                     -->
+  <!-- ======================================================== -->
+  <div id="preview-wrapper" class="transition-all duration-300">
+    <div class="bg-ground min-h-screen relative flex flex-col justify-between shadow-lg">
+
+      <!-- Navigation Bar -->
+      <nav class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/80 px-4 sm:px-8 py-3.5">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+          <a href="#" class="flex items-center gap-2">
+            <span class="text-xl font-black tracking-tight text-brand-700">SOLOLANDSCAPES</span>
+          </a>
+
+          <div class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600">
+            <a href="#" class="hover:text-brand-600 transition-colors">Home</a>
+            <a href="#" class="hover:text-brand-600 transition-colors">Experiences</a>
+            <a href="#" class="hover:text-brand-600 transition-colors">Destinations</a>
+            <a href="#" class="text-brand-700 font-bold border-b-2 border-brand-600 pb-0.5 flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse"></span>
+              Vlogs
+            </a>
+            <a href="#" class="hover:text-brand-600 transition-colors">Moments</a>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <button class="bg-brand-600 hover:bg-brand-700 text-white text-xs sm:text-sm font-semibold px-4 py-2 rounded-full transition-all shadow-sm flex items-center gap-1.5">
+              <i data-lucide="compass" class="w-4 h-4"></i> Plan a Trip
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      <!-- ======================================================== -->
+      <!-- 1. FACEBOOK STORY STYLE VLOGS TRAY (FIRST LAYOUT)        -->
+      <!-- ======================================================== -->
+      <section id="vlogs-stories-section" class="pt-5 pb-6 sm:pt-7 sm:pb-8 bg-white border-b border-slate-200/80 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+          <!-- Header with Title & Hint -->
+          <div class="flex items-center justify-between mb-3 sm:mb-4">
+            <div class="flex items-center gap-2">
+              <span class="flex h-2.5 w-2.5 relative">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-rose-600"></span>
+              </span>
+              <h2 class="text-base sm:text-lg font-black tracking-tight text-slate-900 flex items-center gap-2">
+                Field Vlogs &amp; Stories
+                <span class="text-[11px] font-semibold text-rose-600 bg-rose-50 border border-rose-200 px-2 py-0.5 rounded-full uppercase tracking-wider">Live Clips</span>
+              </h2>
+              <span class="text-xs text-slate-400 font-normal hidden sm:inline">
+                (Swipe or scroll &rarr;)
+              </span>
+            </div>
+
+            <!-- Desktop Arrow Controls -->
+            <div class="hidden sm:flex items-center gap-1.5">
+              <button onclick="scrollStories('left')" class="w-8 h-8 rounded-full border border-slate-200 bg-white hover:bg-slate-50 flex items-center justify-center text-slate-600 shadow-sm transition-all" title="Previous">
+                <i data-lucide="chevron-left" class="w-4 h-4"></i>
+              </button>
+              <button onclick="scrollStories('right')" class="w-8 h-8 rounded-full border border-slate-200 bg-white hover:bg-slate-50 flex items-center justify-center text-slate-600 shadow-sm transition-all" title="Next">
+                <i data-lucide="chevron-right" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Relative Container for Facebook Stories Tray -->
+          <div class="relative group/tray">
+            
+            <!-- Facebook Stories Horizontal Scroll Row -->
+            <div 
+              id="stories-shelf" 
+              class="flex gap-2.5 sm:gap-3.5 overflow-x-auto pb-2 pt-1 snap-x snap-mandatory no-scrollbar -mx-4 px-4 sm:mx-0 sm:px-0 scroll-smooth"
+            >
+
+              <!-- STORY 1: User's YouTube Short (JNE1T-Q1TBU) -->
+              <div 
+                onclick="openStoryByIndex(0)"
+                class="relative shrink-0 w-[115px] sm:w-[130px] md:w-[145px] aspect-[9/16] rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 snap-start group cursor-pointer bg-slate-900 border border-slate-200 select-none"
+              >
+                <img 
+                  src="https://img.youtube.com/vi/JNE1T-Q1TBU/hqdefault.jpg" 
+                  alt="YouTube Short JNE1T-Q1TBU"
+                  class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85"></div>
+                
+                <!-- Circular Avatar with Facebook-style active ring -->
+                <div class="absolute top-2.5 left-2.5 z-10">
+                  <div class="story-ring rounded-full shadow-md">
+                    <img 
+                      src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&q=80" 
+                      alt="Solo Guide" 
+                      class="w-8 h-8 sm:w-9 sm:h-9 rounded-full object-cover border-2 border-white"
+                    />
+                  </div>
+                </div>
+
+                <!-- Play Icon Badge -->
+                <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <div class="w-9 h-9 rounded-full bg-rose-600/90 text-white flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                    <i data-lucide="play" class="w-4 h-4 fill-current ml-0.5"></i>
+                  </div>
+                </div>
+
+                <!-- Story Author Name at Bottom -->
+                <div class="absolute bottom-2.5 left-2.5 right-2.5 z-10">
+                  <span class="inline-block bg-rose-600 text-white text-[9px] font-bold px-1.5 py-0.2 rounded mb-0.5 uppercase tracking-wide">Short</span>
+                  <p class="text-[11px] sm:text-xs font-bold text-white leading-tight drop-shadow-md line-clamp-2">
+                    Cambodia Vlog
+                  </p>
+                  <p class="text-[9px] text-brand-200 mt-0.5 flex items-center gap-1">
+                    <i data-lucide="map-pin" class="w-2.5 h-2.5"></i> Featured
+                  </p>
+                </div>
+              </div>
+
+              <!-- STORY 2 -->
+              <div 
+                onclick="openStoryByIndex(1)"
+                class="relative shrink-0 w-[115px] sm:w-[130px] md:w-[145px] aspect-[9/16] rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 snap-start group cursor-pointer bg-slate-900 border border-slate-200 select-none"
+              >
+                <img 
+                  src="https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?w=500&q=80" 
+                  alt="Waterfall"
+                  class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85"></div>
+                
+                <div class="absolute top-2.5 left-2.5 z-10">
+                  <div class="story-ring rounded-full shadow-md">
+                    <img 
+                      src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80" 
+                      alt="Guide Dara" 
+                      class="w-8 h-8 sm:w-9 sm:h-9 rounded-full object-cover border-2 border-white"
+                    />
+                  </div>
+                </div>
+
+                <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <div class="w-9 h-9 rounded-full bg-white/30 backdrop-blur-md text-white flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:bg-brand-600 transition-all">
+                    <i data-lucide="play" class="w-4 h-4 fill-current ml-0.5"></i>
+                  </div>
+                </div>
+
+                <div class="absolute bottom-2.5 left-2.5 right-2.5 z-10">
+                  <p class="text-[11px] sm:text-xs font-bold text-white leading-tight drop-shadow-md line-clamp-2">
+                    Cardamom Falls
+                  </p>
+                  <p class="text-[9px] text-brand-200 mt-0.5 flex items-center gap-1">
+                    <i data-lucide="map-pin" class="w-2.5 h-2.5"></i> Waterfall Dip
+                  </p>
+                </div>
+              </div>
+
+              <!-- STORY 3 -->
+              <div 
+                onclick="openStoryByIndex(2)"
+                class="relative shrink-0 w-[115px] sm:w-[130px] md:w-[145px] aspect-[9/16] rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 snap-start group cursor-pointer bg-slate-900 border border-slate-200 select-none"
+              >
+                <img 
+                  src="https://images.unsplash.com/photo-1510312305653-8ed496efae75?w=500&q=80" 
+                  alt="Kampot Kayaking"
+                  class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85"></div>
+                
+                <div class="absolute top-2.5 left-2.5 z-10">
+                  <div class="story-ring rounded-full shadow-md">
+                    <img 
+                      src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80" 
+                      alt="Guide Lisa" 
+                      class="w-8 h-8 sm:w-9 sm:h-9 rounded-full object-cover border-2 border-white"
+                    />
+                  </div>
+                </div>
+
+                <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <div class="w-9 h-9 rounded-full bg-white/30 backdrop-blur-md text-white flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:bg-brand-600 transition-all">
+                    <i data-lucide="play" class="w-4 h-4 fill-current ml-0.5"></i>
+                  </div>
+                </div>
+
+                <div class="absolute bottom-2.5 left-2.5 right-2.5 z-10">
+                  <p class="text-[11px] sm:text-xs font-bold text-white leading-tight drop-shadow-md line-clamp-2">
+                    Kampot Kayak
+                  </p>
+                  <p class="text-[9px] text-brand-200 mt-0.5 flex items-center gap-1">
+                    <i data-lucide="map-pin" class="w-2.5 h-2.5"></i> Sunset Loop
+                  </p>
+                </div>
+              </div>
+
+              <!-- STORY 4 -->
+              <div 
+                onclick="openStoryByIndex(3)"
+                class="relative shrink-0 w-[115px] sm:w-[130px] md:w-[145px] aspect-[9/16] rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 snap-start group cursor-pointer bg-slate-900 border border-slate-200 select-none"
+              >
+                <img 
+                  src="https://images.unsplash.com/photo-1528181304800-259b08848526?w=500&q=80" 
+                  alt="Siem Reap"
+                  class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85"></div>
+                
+                <div class="absolute top-2.5 left-2.5 z-10">
+                  <div class="story-ring rounded-full shadow-md">
+                    <img 
+                      src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&q=80" 
+                      alt="Guide Visal" 
+                      class="w-8 h-8 sm:w-9 sm:h-9 rounded-full object-cover border-2 border-white"
+                    />
+                  </div>
+                </div>
+
+                <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <div class="w-9 h-9 rounded-full bg-white/30 backdrop-blur-md text-white flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:bg-brand-600 transition-all">
+                    <i data-lucide="play" class="w-4 h-4 fill-current ml-0.5"></i>
+                  </div>
+                </div>
+
+                <div class="absolute bottom-2.5 left-2.5 right-2.5 z-10">
+                  <p class="text-[11px] sm:text-xs font-bold text-white leading-tight drop-shadow-md line-clamp-2">
+                    Temple Secret
+                  </p>
+                  <p class="text-[9px] text-brand-200 mt-0.5 flex items-center gap-1">
+                    <i data-lucide="map-pin" class="w-2.5 h-2.5"></i> Siem Reap
+                  </p>
+                </div>
+              </div>
+
+              <!-- STORY 5 -->
+              <div 
+                onclick="openStoryByIndex(4)"
+                class="relative shrink-0 w-[115px] sm:w-[130px] md:w-[145px] aspect-[9/16] rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 snap-start group cursor-pointer bg-slate-900 border border-slate-200 select-none"
+              >
+                <img 
+                  src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=500&q=80" 
+                  alt="Mondulkiri Elephants"
+                  class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85"></div>
+                
+                <div class="absolute top-2.5 left-2.5 z-10">
+                  <div class="story-ring rounded-full shadow-md">
+                    <img 
+                      src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&q=80" 
+                      alt="Guide Chantrea" 
+                      class="w-8 h-8 sm:w-9 sm:h-9 rounded-full object-cover border-2 border-white"
+                    />
+                  </div>
+                </div>
+
+                <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <div class="w-9 h-9 rounded-full bg-white/30 backdrop-blur-md text-white flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:bg-brand-600 transition-all">
+                    <i data-lucide="play" class="w-4 h-4 fill-current ml-0.5"></i>
+                  </div>
+                </div>
+
+                <div class="absolute bottom-2.5 left-2.5 right-2.5 z-10">
+                  <p class="text-[11px] sm:text-xs font-bold text-white leading-tight drop-shadow-md line-clamp-2">
+                    Elephant Valley
+                  </p>
+                  <p class="text-[9px] text-brand-200 mt-0.5 flex items-center gap-1">
+                    <i data-lucide="map-pin" class="w-2.5 h-2.5"></i> Mondulkiri
+                  </p>
+                </div>
+              </div>
+
+              <!-- STORY 6: Follow Channel -->
+              <div class="relative shrink-0 w-[115px] sm:w-[130px] md:w-[145px] aspect-[9/16] rounded-2xl overflow-hidden snap-start flex flex-col items-center justify-center p-3 text-center bg-brand-700 text-white border border-brand-800 select-none">
+                <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center mb-2 text-white">
+                  <i data-lucide="youtube" class="w-5 h-5 text-rose-400"></i>
+                </div>
+                <h4 class="font-bold text-xs mb-1">More Vlogs</h4>
+                <p class="text-[10px] text-brand-200 mb-3 leading-tight">Weekly stories on YouTube</p>
+                <a href="https://youtube.com" target="_blank" class="text-[10px] font-bold px-3 py-1 rounded-full bg-white text-brand-700 hover:bg-brand-50 transition-colors">
+                  Subscribe
+                </a>
+              </div>
+
+            </div>
+
+            <!-- Floating left/right scroll arrow overlay (Facebook Style) -->
+            <button 
+              onclick="scrollStories('left')" 
+              class="hidden sm:flex absolute -left-3.5 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white shadow-lg border border-slate-200 items-center justify-center text-slate-700 hover:scale-105 transition-all z-20"
+            >
+              <i data-lucide="chevron-left" class="w-5 h-5"></i>
+            </button>
+            <button 
+              onclick="scrollStories('right')" 
+              class="hidden sm:flex absolute -right-3.5 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white shadow-lg border border-slate-200 items-center justify-center text-slate-700 hover:scale-105 transition-all z-20"
+            >
+              <i data-lucide="chevron-right" class="w-5 h-5"></i>
+            </button>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================== -->
+      <!-- 2. HERO SECTION & FEATURED VLOG SPOTLIGHT                -->
+      <!-- ======================================================== -->
+      <section class="relative bg-white overflow-hidden border-b border-slate-200/70 py-8 sm:py-14">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="grid lg:grid-cols-12 gap-6 sm:gap-8 items-center">
+            
+            <div class="lg:col-span-7 space-y-3 sm:space-y-4">
+              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-50 border border-brand-100 text-brand-700 text-xs font-semibold uppercase tracking-wider">
+                <span>🎥</span> SoloLandscapes Vlogs &amp; Journeys
+              </div>
+              <h1 class="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
+                Watch Cambodia Through <span class="text-brand-600">Local Eyes</span>
+              </h1>
+              <p class="text-slate-600 text-xs sm:text-base leading-relaxed max-w-xl">
+                Explore our raw travel vlogs, guide diaries, and eco-tourism stories recorded in the field across Cambodia.
+              </p>
+              <div class="pt-1 flex items-center gap-3 text-xs font-semibold text-slate-700">
+                <span class="flex items-center gap-1.5"><i data-lucide="check-circle" class="w-4 h-4 text-brand-600"></i> High Resolution Shorts</span>
+                <span class="flex items-center gap-1.5"><i data-lucide="check-circle" class="w-4 h-4 text-brand-600"></i> Field Guides</span>
+              </div>
+            </div>
+
+            <!-- Featured Vlog Spotlight -->
+            <div class="lg:col-span-5">
+              <div onclick="openStoryByIndex(0)" class="relative aspect-16/10 rounded-2xl overflow-hidden shadow-sm group cursor-pointer border border-slate-200">
+                <img src="https://img.youtube.com/vi/JNE1T-Q1TBU/hqdefault.jpg" alt="Featured YouTube Short" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                
+                <!-- Play button indicator -->
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <div class="w-12 h-12 rounded-full bg-white/20 backdrop-blur-md border border-white/40 flex items-center justify-center text-white group-hover:scale-110 group-hover:bg-rose-600 transition-all shadow-lg">
+                    <i data-lucide="play" class="w-5 h-5 fill-current ml-0.5"></i>
+                  </div>
+                </div>
+
+                <div class="absolute bottom-0 left-0 right-0 p-4 sm:p-5 text-white">
+                  <span class="text-[11px] font-medium text-rose-300 uppercase tracking-wider flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span> Featured YouTube Short
+                  </span>
+                  <h3 class="text-base sm:text-lg font-bold mt-1 line-clamp-2">SoloLandscapes Field Journey — Watch Short</h3>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================== -->
+      <!-- 3. MAIN BLOG ARTICLES GRID                               -->
+      <!-- ======================================================== -->
+      <section id="articles-grid" class="py-10 sm:py-16 bg-ground">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div class="flex items-center justify-between mb-6">
+            <div>
+              <span class="text-xs font-bold uppercase tracking-wider text-brand-600">Stories &amp; Articles</span>
+              <h2 class="text-xl sm:text-2xl font-bold text-slate-900">All Travel Articles</h2>
+            </div>
+            <span class="text-xs text-slate-500">4 Stories</span>
+          </div>
+
+          <!-- 4-Col Grid -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+            
+            <article class="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:-translate-y-1 hover:shadow-md transition-all duration-200 group flex flex-col">
+              <div class="relative aspect-16/10 overflow-hidden bg-slate-100">
+                <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500&q=80" alt="Solo vs Group" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+              </div>
+              <div class="p-4 sm:p-5 flex flex-col flex-1 justify-between">
+                <div>
+                  <h3 class="font-bold text-slate-900 group-hover:text-brand-600 transition-colors line-clamp-2 text-sm leading-snug">
+                    Solo vs. Group Adventures: Which One Is Right for You?
+                  </h3>
+                  <p class="text-[11px] text-slate-400 mt-1">August 05, 2026 • 5 min read</p>
+                </div>
+                <div class="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-brand-600">
+                  <span>Read Article</span>
+                  <div class="w-6 h-6 rounded-full bg-brand-50 flex items-center justify-center text-brand-700 group-hover:bg-brand-600 group-hover:text-white transition-colors">
+                    <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:-translate-y-1 hover:shadow-md transition-all duration-200 group flex flex-col">
+              <div class="relative aspect-16/10 overflow-hidden bg-slate-100">
+                <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=500&q=80" alt="Green list" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+              </div>
+              <div class="p-4 sm:p-5 flex flex-col flex-1 justify-between">
+                <div>
+                  <h3 class="font-bold text-slate-900 group-hover:text-brand-600 transition-colors line-clamp-2 text-sm leading-snug">
+                    Cambodia Just Made Wanderlust's Travel Green List 2026
+                  </h3>
+                  <p class="text-[11px] text-slate-400 mt-1">July 29, 2026 • 5 min read</p>
+                </div>
+                <div class="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-brand-600">
+                  <span>Read Article</span>
+                  <div class="w-6 h-6 rounded-full bg-brand-50 flex items-center justify-center text-brand-700 group-hover:bg-brand-600 group-hover:text-white transition-colors">
+                    <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:-translate-y-1 hover:shadow-md transition-all duration-200 group flex flex-col">
+              <div class="relative aspect-16/10 overflow-hidden bg-slate-100">
+                <img src="https://images.unsplash.com/photo-1448375240586-882707db888b?w=500&q=80" alt="Chi Phat" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+              </div>
+              <div class="p-4 sm:p-5 flex flex-col flex-1 justify-between">
+                <div>
+                  <h3 class="font-bold text-slate-900 group-hover:text-brand-600 transition-colors line-clamp-2 text-sm leading-snug">
+                    Chi Phat and the Cardamoms: Original Ecotourism Story
+                  </h3>
+                  <p class="text-[11px] text-slate-400 mt-1">July 28, 2026 • 5 min read</p>
+                </div>
+                <div class="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-brand-600">
+                  <span>Read Article</span>
+                  <div class="w-6 h-6 rounded-full bg-brand-50 flex items-center justify-center text-brand-700 group-hover:bg-brand-600 group-hover:text-white transition-colors">
+                    <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:-translate-y-1 hover:shadow-md transition-all duration-200 group flex flex-col">
+              <div class="relative aspect-16/10 overflow-hidden bg-slate-100">
+                <img src="https://images.unsplash.com/photo-1544644181-1484b3fdfc62?w=500&q=80" alt="Waterfalls" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+              </div>
+              <div class="p-4 sm:p-5 flex flex-col flex-1 justify-between">
+                <div>
+                  <h3 class="font-bold text-slate-900 group-hover:text-brand-600 transition-colors line-clamp-2 text-sm leading-snug">
+                    Best Waterfalls Near Phnom Penh to Visit This Green Season
+                  </h3>
+                  <p class="text-[11px] text-slate-400 mt-1">July 27, 2026 • 5 min read</p>
+                </div>
+                <div class="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-brand-600">
+                  <span>Read Article</span>
+                  <div class="w-6 h-6 rounded-full bg-brand-50 flex items-center justify-center text-brand-700 group-hover:bg-brand-600 group-hover:text-white transition-colors">
+                    <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="bg-slate-900 text-slate-400 py-8 px-4 text-center text-xs">
+        <p class="font-semibold text-white mb-1">SoloLandscapes • Sustainable Travel Experiences</p>
+        <p>Facebook Story style reference layout for mobile-first vlogs &amp; blogs.</p>
+      </footer>
+
+      <!-- Bottom Mobile Bar -->
+      <div class="sticky bottom-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 px-3 py-2 flex justify-around items-center md:hidden">
+        <a href="#" class="flex flex-col items-center gap-0.5 text-slate-400 hover:text-brand-600">
+          <i data-lucide="home" class="w-4 h-4"></i>
+          <span class="text-[10px]">Home</span>
+        </a>
+        <a href="#vlogs-stories-section" class="flex flex-col items-center gap-0.5 text-brand-700 font-bold relative">
+          <span class="absolute -top-1 right-2 w-1.5 h-1.5 rounded-full bg-rose-500 animate-ping"></span>
+          <i data-lucide="play-circle" class="w-4 h-4 text-brand-700"></i>
+          <span class="text-[10px] text-brand-700">Vlogs</span>
+        </a>
+        <a href="#articles-grid" class="flex flex-col items-center gap-0.5 text-slate-400 hover:text-brand-600">
+          <i data-lucide="book-open" class="w-4 h-4"></i>
+          <span class="text-[10px]">Articles</span>
+        </a>
+        <a href="#" class="flex flex-col items-center gap-0.5 text-slate-400 hover:text-brand-600">
+          <i data-lucide="compass" class="w-4 h-4"></i>
+          <span class="text-[10px]">Explore</span>
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- 4. FULL FACEBOOK STORY VIEWER EXPERIENCE (POPUP)         -->
+  <!-- ======================================================== -->
+  <div 
+    id="story-modal" 
+    class="fixed inset-0 z-[200] bg-black/95 backdrop-blur-md hidden items-center justify-center p-0 sm:p-4 opacity-0 transition-opacity duration-200 select-none"
+  >
+    <!-- YouTube Shorts Vertical Frame (9:16) -->
+    <div id="story-frame" class="relative w-full max-w-[390px] h-full sm:h-[88vh] sm:max-h-[760px] aspect-[9/16] bg-black sm:rounded-3xl overflow-hidden shadow-2xl flex flex-col border sm:border-white/15">
+      
+      <!-- Top Segmented Progress Bars -->
+      <div id="story-progress-bars" class="absolute top-2.5 left-3 right-3 z-30 flex items-center gap-1.5 pointer-events-none">
+        <!-- Injected via JavaScript dynamically -->
+      </div>
+
+      <!-- Top Story Header -->
+      <div class="absolute top-6 left-3 right-3 z-30 flex items-center justify-between text-white">
+        <div class="flex items-center gap-2.5">
+          <img id="modal-guide-avatar" src="" alt="Author" class="w-9 h-9 rounded-full object-cover border-2 border-white shadow">
+          <div>
+            <div class="flex items-center gap-1.5">
+              <span id="modal-guide-name" class="font-bold text-xs tracking-tight drop-shadow"></span>
+              <span class="text-[10px] text-white/70">• <span id="modal-guide-time">2h ago</span></span>
+            </div>
+            <p id="modal-guide-loc" class="text-[10px] text-brand-300 font-medium flex items-center gap-1"></p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-1.5">
+          <!-- Open in YouTube link button -->
+          <a 
+            id="modal-yt-link" 
+            href="#" 
+            target="_blank" 
+            class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-black/60 hover:bg-black/90 active:scale-95 flex items-center justify-center text-white transition-all border border-white/20 cursor-pointer z-40"
+            title="Open in YouTube App / Tab"
+          >
+            <i data-lucide="external-link" class="w-4 h-4 text-rose-400"></i>
+          </a>
+
+          <!-- Native Fullscreen Toggle button -->
+          <button 
+            onclick="toggleStoryFullscreen()" 
+            class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-black/60 hover:bg-black/90 active:scale-95 flex items-center justify-center text-white transition-all border border-white/20 cursor-pointer z-40"
+            title="Toggle Fullscreen Mode"
+          >
+            <i id="fs-icon" data-lucide="maximize" class="w-4 h-4"></i>
+          </button>
+
+          <!-- Close Modal button -->
+          <button 
+            onclick="closeStoryModal()" 
+            class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-black/60 hover:bg-black/90 active:scale-95 flex items-center justify-center text-white transition-all border border-white/20 cursor-pointer z-40"
+            title="Close"
+          >
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Swipe Up/Down Indicator Badge -->
+      <div class="sm:hidden absolute top-16 right-3 z-30 bg-black/50 backdrop-blur-md px-2.5 py-0.5 rounded-full text-[10px] text-white/80 border border-white/15 flex items-center gap-1 pointer-events-none">
+        <i data-lucide="arrow-up-down" class="w-3 h-3 text-rose-400"></i>
+        <span>Swipe Up/Down</span>
+      </div>
+
+      <!-- YouTube Short Iframe -->
+      <div id="video-container" class="w-full h-full relative z-10 transition-transform duration-300">
+        <iframe 
+          id="modal-iframe" 
+          class="w-full h-full object-cover" 
+          src="" 
+          title="SoloLandscapes Vlog Story" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen *" 
+          allowfullscreen
+          webkitallowfullscreen
+          mozallowfullscreen
+        ></iframe>
+        <!-- Transparent swipe overlay: captures touch/wheel gestures that the iframe would otherwise swallow -->
+        <div id="swipe-overlay" class="absolute inset-0 z-20" style="touch-action: pan-y;"></div>
+      </div>
+
+      <!-- Bottom Facebook-style Quick Action / Reply Bar -->
+      <div class="absolute bottom-1.5 left-2 right-14 p-1.5 z-30 pointer-events-none flex items-center gap-2">
+        <div class="flex-1 bg-black/60 backdrop-blur-md rounded-full px-3 py-1.5 border border-white/20 text-white text-xs flex items-center justify-between pointer-events-auto shadow-md">
+          <span class="text-white/70 text-[11px]">Send a message...</span>
+          <i data-lucide="send" class="w-3 h-3 text-white/60"></i>
+        </div>
+        <button class="w-8 h-8 rounded-full bg-brand-600 text-white flex items-center justify-center shadow-lg hover:scale-105 transition-transform cursor-pointer pointer-events-auto shrink-0" title="Book this experience">
+          <i data-lucide="compass" class="w-3.5 h-3.5"></i>
+        </button>
+        <button class="w-8 h-8 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white flex items-center justify-center hover:text-rose-400 transition-colors cursor-pointer pointer-events-auto shrink-0" title="Like">
+          <i data-lucide="heart" class="w-3.5 h-3.5 fill-current"></i>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- YouTube Shorts Vertical Action Bar (Desktop Side Controls) -->
+    <div class="hidden sm:flex flex-col items-center gap-3.5 ml-4 z-30 select-none">
+      <!-- Scroll Up / Previous Short -->
+      <button 
+        onclick="prevStory()" 
+        class="w-12 h-12 rounded-full bg-white/10 hover:bg-white/25 text-white flex items-center justify-center transition-all border border-white/20 hover:scale-110 shadow-2xl cursor-pointer"
+        title="Previous Short (Scroll Up / Arrow Up)"
+      >
+        <i data-lucide="chevron-up" class="w-6 h-6"></i>
+      </button>
+
+      <!-- Counter Badge -->
+      <div id="short-counter" class="text-xs font-bold text-white bg-black/60 px-3 py-1.5 rounded-full border border-white/20 shadow">
+        1 / 5
+      </div>
+
+      <!-- Scroll Down / Next Short -->
+      <button 
+        onclick="nextStory()" 
+        class="w-12 h-12 rounded-full bg-white/10 hover:bg-white/25 text-white flex items-center justify-center transition-all border border-white/20 hover:scale-110 shadow-2xl cursor-pointer"
+        title="Next Short (Scroll Down / Arrow Down)"
+      >
+        <i data-lucide="chevron-down" class="w-6 h-6"></i>
+      </button>
+
+      <div class="h-px w-8 bg-white/20 my-1"></div>
+
+      <!-- Quick Share Button -->
+      <button 
+        onclick="navigator.clipboard?.writeText(window.location.href); alert('Short link copied!');" 
+        class="w-10 h-10 rounded-full bg-black/50 hover:bg-black/80 text-white flex items-center justify-center border border-white/20 transition-all cursor-pointer"
+        title="Share Short"
+      >
+        <i data-lucide="share-2" class="w-4 h-4"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- JAVASCRIPT: Facebook Story Scroll & Interactive Player   -->
+  <!-- ======================================================== -->
+  <script>
+    // Initialize icons
+    lucide.createIcons();
+
+    // Data for the stories
+    const STORIES = [
+      {
+        id: '1',
+        youtubeId: 'JNE1T-Q1TBU', // User's requested YouTube short
+        author: 'SoloLandscapes Field',
+        time: 'Just now',
+        location: 'Cambodia Adventure',
+        avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&q=80',
+        title: 'SoloLandscapes Field Short: Raw nature & travel moments',
+      },
+      {
+        id: '2',
+        youtubeId: 'dQw4w9WgXcQ',
+        author: 'Dara (Eco Ranger)',
+        time: '5h ago',
+        location: 'Chi Phat Waterfalls',
+        avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80',
+        title: 'Deep forest trekking & cold springs plunge',
+      },
+      {
+        id: '3',
+        youtubeId: 'J5Ow6NnJWlQ',
+        author: 'Lisa (Paddle Specialist)',
+        time: '7h ago',
+        location: 'Kampot River Trails',
+        avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80',
+        title: 'Sunset kayak loop through the green mangroves',
+      },
+      {
+        id: '4',
+        youtubeId: 'J5Ow6NnJWlQ',
+        author: 'Visal (Heritage Guide)',
+        time: '12h ago',
+        location: 'Siem Reap Temple',
+        avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&q=80',
+        title: 'Escaping the crowds: The forgotten stone staircase',
+      },
+      {
+        id: '5',
+        youtubeId: 'J5Ow6NnJWlQ',
+        author: 'Chantrea (Wildlife Lead)',
+        time: '1d ago',
+        location: 'Mondulkiri Valley',
+        avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&q=80',
+        title: 'Walking with rescued elephants in the protected valley',
+      }
+    ];
+
+    let currentStoryIndex = 0;
+
+    // Scroll the Facebook Stories tray horizontally left/right
+    function scrollStories(direction) {
+      const shelf = document.getElementById('stories-shelf');
+      const cardWidth = 145 + 14; // card width + gap
+      const scrollAmount = cardWidth * 2;
+      if (direction === 'left') {
+        shelf.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+      } else {
+        shelf.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+      }
+    }
+
+    // Mouse drag scrolling for the story shelf (desktop & simulated mobile view)
+    const shelf = document.getElementById('stories-shelf');
+    let isDown = false;
+    let startX = 0;
+    let scrollLeftPos = 0;
+    let hasDragged = false;
+
+    shelf.addEventListener('mousedown', (e) => {
+      isDown = true;
+      hasDragged = false;
+      startX = e.pageX - shelf.offsetLeft;
+      scrollLeftPos = shelf.scrollLeft;
+    });
+
+    window.addEventListener('mouseup', () => {
+      isDown = false;
+    });
+
+    shelf.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      const x = e.pageX - shelf.offsetLeft;
+      const walk = (x - startX) * 1.5;
+      if (Math.abs(walk) > 8) {
+        hasDragged = true;
+      }
+      shelf.scrollLeft = scrollLeftPos - walk;
+    });
+
+    // Open Story in Facebook Story Modal
+    function openStoryByIndex(index) {
+      if (hasDragged) return; // don't open if user was dragging
+      if (index < 0 || index >= STORIES.length) return;
+      currentStoryIndex = index;
+      renderStory();
+
+      const modal = document.getElementById('story-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      setTimeout(() => {
+        modal.classList.remove('opacity-0');
+      }, 10);
+      document.body.style.overflow = 'hidden';
+    }
+
+    function renderStory() {
+      const story = STORIES[currentStoryIndex];
+      const iframe = document.getElementById('modal-iframe');
+      const avatarEl = document.getElementById('modal-guide-avatar');
+      const nameEl = document.getElementById('modal-guide-name');
+      const timeEl = document.getElementById('modal-guide-time');
+      const locEl = document.getElementById('modal-guide-loc');
+      const progressBarsContainer = document.getElementById('story-progress-bars');
+
+      // Update Header info
+      avatarEl.src = story.avatar;
+      nameEl.innerText = story.author;
+      timeEl.innerText = story.time;
+      locEl.innerHTML = `<i data-lucide="map-pin" class="w-3 h-3 text-brand-300"></i> ${story.location}`;
+
+      // Update segmented progress bars (Facebook style)
+      progressBarsContainer.innerHTML = STORIES.map((_, i) => {
+        let barClass = "bg-white/30";
+        if (i < currentStoryIndex) {
+          barClass = "bg-white"; // already watched
+        } else if (i === currentStoryIndex) {
+          barClass = "bg-white animate-pulse"; // currently playing
+        }
+        return `<div class="h-1 flex-1 rounded-full ${barClass} transition-all duration-300"></div>`;
+      }).join('');
+
+      // Mount YouTube player with fs=1 (allow fullscreen) and controls enabled
+      iframe.src = `https://www.youtube.com/embed/${story.youtubeId}?autoplay=1&playsinline=1&modestbranding=1&rel=0&fs=1&enablejsapi=1`;
+
+      // Update external YouTube Shorts link
+      const ytLink = document.getElementById('modal-yt-link');
+      if (ytLink) {
+        ytLink.href = `https://www.youtube.com/shorts/${story.youtubeId}`;
+      }
+
+      // Update short counter badge
+      const counterEl = document.getElementById('short-counter');
+      if (counterEl) {
+        counterEl.innerText = `${currentStoryIndex + 1} / ${STORIES.length}`;
+      }
+
+      lucide.createIcons();
+    }
+
+    // Toggle HTML5 native fullscreen on the story frame
+    function toggleStoryFullscreen() {
+      const frame = document.getElementById('story-frame') || document.getElementById('story-modal');
+      const fsIcon = document.getElementById('fs-icon');
+
+      if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+        if (frame.requestFullscreen) {
+          frame.requestFullscreen();
+        } else if (frame.webkitRequestFullscreen) {
+          frame.webkitRequestFullscreen();
+        } else if (frame.msRequestFullscreen) {
+          frame.msRequestFullscreen();
+        }
+        if (fsIcon) {
+          fsIcon.setAttribute('data-lucide', 'minimize');
+          lucide.createIcons();
+        }
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+        }
+        if (fsIcon) {
+          fsIcon.setAttribute('data-lucide', 'maximize');
+          lucide.createIcons();
+        }
+      }
+    }
+
+    document.addEventListener('fullscreenchange', () => {
+      const fsIcon = document.getElementById('fs-icon');
+      if (!fsIcon) return;
+      if (document.fullscreenElement) {
+        fsIcon.setAttribute('data-lucide', 'minimize');
+      } else {
+        fsIcon.setAttribute('data-lucide', 'maximize');
+      }
+      lucide.createIcons();
+    });
+
+    function nextStory() {
+      if (currentStoryIndex < STORIES.length - 1) {
+        animateVerticalTransition('down');
+        currentStoryIndex++;
+        renderStory();
+      } else {
+        // Loop back to start like TikTok/Shorts
+        animateVerticalTransition('down');
+        currentStoryIndex = 0;
+        renderStory();
+      }
+    }
+
+    function prevStory() {
+      if (currentStoryIndex > 0) {
+        animateVerticalTransition('up');
+        currentStoryIndex--;
+        renderStory();
+      } else {
+        // Go to last
+        animateVerticalTransition('up');
+        currentStoryIndex = STORIES.length - 1;
+        renderStory();
+      }
+    }
+
+    // Subtle slide transition animation
+    function animateVerticalTransition(direction) {
+      const container = document.getElementById('video-container');
+      if (!container) return;
+      container.style.transform = direction === 'down' ? 'translateY(16px)' : 'translateY(-16px)';
+      container.style.opacity = '0.6';
+      setTimeout(() => {
+        container.style.transform = 'translateY(0)';
+        container.style.opacity = '1';
+      }, 150);
+    }
+
+    function closeStoryModal() {
+      if (document.fullscreenElement) {
+        document.exitFullscreen?.();
+      }
+      const modal = document.getElementById('story-modal');
+      const iframe = document.getElementById('modal-iframe');
+      modal.classList.add('opacity-0');
+      setTimeout(() => {
+        iframe.src = '';
+        modal.classList.remove('flex');
+        modal.classList.add('hidden');
+        document.body.style.overflow = '';
+      }, 200);
+    }
+
+    // ── Swipe overlay: catches touch/wheel events that the iframe would swallow ──
+    const swipeOverlay = document.getElementById('swipe-overlay');
+    const storyModal = document.getElementById('story-modal');
+
+    // Mouse Wheel Scroll on the overlay (Scroll UP or DOWN to change short)
+    let isWheelThrottled = false;
+    swipeOverlay.addEventListener('wheel', (e) => {
+      if (storyModal.classList.contains('hidden')) return;
+      if (isWheelThrottled) return;
+      e.preventDefault();
+
+      if (e.deltaY > 25) {
+        isWheelThrottled = true;
+        nextStory();
+        setTimeout(() => { isWheelThrottled = false; }, 380);
+      } else if (e.deltaY < -25) {
+        isWheelThrottled = true;
+        prevStory();
+        setTimeout(() => { isWheelThrottled = false; }, 380);
+      }
+    }, { passive: false });
+
+    // Also keep wheel on the modal backdrop (outside the iframe area)
+    storyModal.addEventListener('wheel', (e) => {
+      if (storyModal.classList.contains('hidden')) return;
+      if (isWheelThrottled) return;
+
+      if (e.deltaY > 25) {
+        isWheelThrottled = true;
+        nextStory();
+        setTimeout(() => { isWheelThrottled = false; }, 380);
+      } else if (e.deltaY < -25) {
+        isWheelThrottled = true;
+        prevStory();
+        setTimeout(() => { isWheelThrottled = false; }, 380);
+      }
+    }, { passive: true });
+
+    // Touch Swipe on the overlay (Swipe UP or DOWN on mobile to change short)
+    let touchStartY = 0;
+    let touchStartX = 0;
+    let isSwiping = false;
+    let swipeHandled = false;
+
+    swipeOverlay.addEventListener('touchstart', (e) => {
+      if (e.touches.length > 0) {
+        touchStartY = e.touches[0].clientY;
+        touchStartX = e.touches[0].clientX;
+        isSwiping = false;
+        swipeHandled = false;
+      }
+    }, { passive: true });
+
+    swipeOverlay.addEventListener('touchmove', (e) => {
+      if (swipeHandled || e.touches.length === 0) return;
+      const currentY = e.touches[0].clientY;
+      const currentX = e.touches[0].clientX;
+      const diffY = touchStartY - currentY;
+      const diffX = Math.abs(touchStartX - currentX);
+
+      // Only treat as vertical swipe if vertical movement > horizontal
+      if (Math.abs(diffY) > 30 && Math.abs(diffY) > diffX) {
+        isSwiping = true;
+        e.preventDefault(); // prevent page scroll while swiping between stories
+      }
+    }, { passive: false });
+
+    swipeOverlay.addEventListener('touchend', (e) => {
+      if (storyModal.classList.contains('hidden')) return;
+      if (swipeHandled) return;
+
+      if (e.changedTouches.length > 0) {
+        const touchEndY = e.changedTouches[0].clientY;
+        const touchEndX = e.changedTouches[0].clientX;
+        const diffY = touchStartY - touchEndY;
+        const diffX = Math.abs(touchStartX - touchEndX);
+
+        // Vertical swipe with enough distance and more vertical than horizontal
+        if (Math.abs(diffY) > 45 && Math.abs(diffY) > diffX) {
+          swipeHandled = true;
+          if (diffY > 0) {
+            // Swiped UP -> Next Short
+            nextStory();
+          } else {
+            // Swiped DOWN -> Previous Short
+            prevStory();
+          }
+        }
+      }
+    }, { passive: true });
+
+    // Keyboard navigation (ArrowDown / ArrowUp / PageDown / PageUp / Escape)
+    document.addEventListener('keydown', (e) => {
+      const modal = document.getElementById('story-modal');
+      if (modal.classList.contains('hidden')) return;
+
+      if (e.key === 'ArrowDown' || e.key === 'PageDown') {
+        e.preventDefault();
+        nextStory();
+      } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+        e.preventDefault();
+        prevStory();
+      } else if (e.key === 'Escape') {
+        closeStoryModal();
+      }
+    });
+
+    // Toggle Preview Mode (Mobile frame vs Full Responsive)
+    function setViewMode(mode) {
+      const wrapper = document.getElementById('preview-wrapper');
+      const btnFull = document.getElementById('btn-full');
+      const btnMobile = document.getElementById('btn-mobile');
+
+      if (mode === 'mobile') {
+        wrapper.className = 'mobile-device-frame';
+        btnMobile.className = 'px-3 py-1 rounded-md text-xs font-medium transition-all bg-brand-600 text-white shadow-sm flex items-center gap-1.5';
+        btnFull.className = 'px-3 py-1 rounded-md text-xs font-medium transition-all text-slate-300 hover:text-white flex items-center gap-1.5';
+        // Ensure the mobile frame starts scrolled to top
+        wrapper.scrollTop = 0;
+      } else {
+        wrapper.className = 'w-full';
+        btnFull.className = 'px-3 py-1 rounded-md text-xs font-medium transition-all bg-brand-600 text-white shadow-sm flex items-center gap-1.5';
+        btnMobile.className = 'px-3 py-1 rounded-md text-xs font-medium transition-all text-slate-300 hover:text-white flex items-center gap-1.5';
+      }
+      // Always ensure body scroll is not locked when switching modes
+      document.body.style.overflow = '';
+    }
+  </script>
+</body>
+</html>
